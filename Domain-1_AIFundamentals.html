@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPMAI Deep Dive: Domain I - AI Fundamentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .key-term {
+            background-color: #fefce8;
+            border: 1px solid #facc15;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #713f12;
+        }
+        h2 {
+            border-bottom: 2px solid #d1d5db;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        h4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .pro-tip h4 {
+            color: #0369a1;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-8">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">CPMAI Deep Dive: Domain I - AI Fundamentals</h1>
+        <p class="text-lg text-gray-600 mb-6">This document provides a comprehensive, in-depth overview of all concepts, methodologies, and terminology for Domain I, synthesized from 100% of the official PMI course materials.</p>
+
+        <h2 id="task1">Task 1: Understanding of AI Fundamentals and Evolution</h2>
+        
+        <h3>Defining Intelligence: Human vs. Artificial</h3>
+        <p>The pursuit of AI begins with understanding human intelligence. While we don't fully know how the brain works, we can get inspiration from observing its capabilities. Key aspects of human intelligence include:</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Perception & Understanding:</strong> Sensing the environment and processing a multitude of inputs.</li>
+            <li><strong>Learning from Experience:</strong> Adapting and improving over time through trial and error, observation, or instruction.</li>
+            <li><strong>Adaptation:</strong> Applying knowledge to new situations and contexts.</li>
+            <li><strong>Reasoning & Problem Solving:</strong> Using logic to solve novel problems.</li>
+            <li><strong>Handling Abstraction:</strong> Understanding concepts like emotions, creativity, and imagination.</li>
+            <li><strong>Goal-Directed Future:</strong> Planning and acting to achieve objectives, a key differentiator from non-intelligent life.</li>
+            <li><strong>Handling Ambiguity:</strong> Dealing with complex situations, incomplete information, and discerning what is important.</li>
+        </ul>
+        <p><span class="key-term">Artificial Intelligence (AI)</span> is the discipline of creating machines to perform these cognitive tasks. The core aspects AI aims to replicate are <strong>Perception, Prediction, and Planning</strong> within a continuous feedback loop.</p>
+
+        <h4>Types of AI: The Spectrum of Intelligence</h4>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><span class="key-term">Artificial General Intelligence (AGI) / Strong AI</span>: A hypothetical AI that can perform any intellectual task a human can without specific retraining. AGI implies a machine can successfully perform any intellectual task that a human is able to perform without requiring retraining or use of different machine learning models for different tasks. <strong>This does not exist today.</strong></li>
+            <li><span class="key-term">Narrow AI / Weak AI</span>: The current state of all AI systems. These are intelligent systems that can handle a single or small set of related learning tasks for a specific function. They must be retrained with completely different algorithmic approaches and data to be applied to different domains. Examples include image recognition, recommendation systems, and chatbots.</li>
+            <li><span class="key-term">Augmented Intelligence</span>: A human-centered partnership model. It's where machines and humans work together to assist the human to be better at tasks. This approach combines human strengths (intuition, emotional IQ, common sense, creativity) with AI strengths (probabilistic thinking, dealing with large volumes of info, being trained).</li>
+            <li><span class="key-term">Cognitive Computing / Technology</span>: An umbrella term for AI/ML technologies applied to specific applications, often used to avoid the confusion or stigma of "AI".</li>
+        </ul>
+
+        <h4>Historical Context & Key Concepts</h4>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>The Turing Test:</strong> Proposed by Alan Turing in 1950. In the test, a human interrogator engages in a natural language conversation with both a human and a machine. If the interrogator cannot reliably distinguish the machine from the human, the machine is said to have passed the test. While historically significant, it is now considered an overly simplistic measure of true intelligence.</li>
+            <li><strong>AI Winters:</strong> Periods of reduced funding and interest in AI, typically caused by overpromising and underdelivering.
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>First AI Winter (mid-1970s - early 1980s):</strong> Caused by the failure of early systems to live up to their hype, particularly in machine translation and symbolic reasoning, and the limitations of available compute power.</li>
+                    <li><strong>Second AI Winter (late 1980s - early 1990s):</strong> Caused by the collapse of the brittle, overly complicated, and expensive <span class="key-term">Expert Systems</span> market.</li>
+                </ul>
+            </li>
+            <li><strong>Why AI Now? The "AI Summer":</strong> Driven by a convergence of key factors:
+                <ol class="list-decimal list-inside ml-6 mt-2">
+                    <li><strong>Big Data:</strong> The massive volume of digital data available to train models. Data fuels AI.</li>
+                    <li><strong>Advanced Algorithms:</strong> The evolution of Machine Learning, especially Deep Learning algorithms.</li>
+                    <li><strong>Powerful Compute:</strong> The availability of cheap, parallel processing power (GPUs).</li>
+                    <li><strong>Mega-Tech Investment:</strong> Heavy investment from companies like Google, Amazon, Microsoft, etc.</li>
+                    <li><strong>Strategic Investment:</strong> Country-level strategic initiatives recognizing AI's importance.</li>
+                </ol>
+            </li>
+            <li><span class="key-term">Symbolic Systems</span>: An early AI approach using human-understandable symbols, logic, and semantic relationships to reason through problems. It is not statistically based like modern ML.</li>
+            <li><span class="key-term">Expert Systems</span>: A type of symbolic system that mimics a human expert's decision-making. It consists of a knowledge base (facts), a rules base (how to use the facts), and an inference engine (which generates results). They failed because they were expensive, hard to maintain, and could not learn from new data.</li>
+            <li><span class="key-term">Fuzzy Logic</span>: An approach that handles approximate reasoning by allowing for multiple possible truth values (degrees of truth), which is useful for handling ambiguity.</li>
+        </ul>
+
+        <div class="pro-tip">
+            <h4>Exam Tip: Debunking AI Myths</h4>
+            <p>Be prepared to distinguish reality from hype. Common myths you should be able to refute include:</p>
+            <ul class="list-disc list-inside ml-4 mt-2">
+                <li><strong>Myth:</strong> AI is all about superintelligent robots taking over. <strong>Reality:</strong> All current AI is Narrow AI.</li>
+                <li><strong>Myth:</strong> Automation and Intelligence are the same. <strong>Reality:</strong> Automation repeats a task; intelligence learns and adapts.</li>
+                <li><strong>Myth:</strong> You need Google-sized datasets. <strong>Reality:</strong> Techniques like transfer learning allow for effective AI with smaller datasets.</li>
+                <li><strong>Myth:</strong> You can just "buy AI" from a vendor. <strong>Reality:</strong> AI is a capability that must be integrated and trained on your specific data.</li>
+                <li><strong>Myth:</strong> AI, Machine Learning & Deep Learning are the same. <strong>Reality:</strong> Deep Learning is a type of Machine Learning, which is a subfield of AI.</li>
+            </ul>
+        </div>
+
+        <h2 id="task2">Task 2: Evaluating AI Applications and Patterns</h2>
+        <p>A key skill is identifying problems fit for AI. The distinction is between <strong>probabilistic</strong> (good for AI) and <strong>deterministic</strong> (poor for AI) problems.</p>
+        <ul class="list-disc list-inside space-y-1 mt-4 mb-6">
+            <li><strong>Good for AI (Probabilistic):</strong> Problems with variability, ambiguity, and where rules are hard to define (e.g., image classification, sales forecasting, sentiment analysis).</li>
+            <li><strong>Poor for AI (Deterministic):</strong> Repetitive problems solvable with fixed rules (e.g., payroll calculation). These are better for traditional automation. If a problem requires 100% accuracy, it's likely not a good fit for ML.</li>
+        </ul>
+
+        <h3>The Seven Patterns of AI (In-Depth)</h3>
+        <p>These patterns are a conceptual shortcut to help define project scope, data requirements, and risks.</p>
+        <ol class="list-decimal list-inside space-y-4 mt-4 mb-6">
+            <li><strong>Conversational & Human Interaction:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Enable natural language interaction (text or voice).</li>
+                    <li><strong>Examples:</strong> Chatbots, voice assistants, machine translation, content summarization, sentiment analysis.</li>
+                    <li><strong>Core Tech:</strong> <span class="key-term">Natural Language Processing (NLP)</span>, <span class="key-term">Natural Language Understanding (NLU)</span>, <span class="key-term">Natural Language Generation (NLG)</span>, Speech-to-Text (STT), Text-to-Speech (TTS).</li>
+                </ul>
+            </li>
+            <li><strong>Recognition:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Identify and extract info from unstructured data (images, audio, video, handwriting).</li>
+                    <li><strong>Examples:</strong> Facial recognition, object detection, sound recognition, gesture recognition.</li>
+                    <li><strong>Core Tech:</strong> <span class="key-term">Computer Vision</span>. A key resource here is <span class="key-term">ImageNet</span>, a massive labeled image dataset that spurred much of the research in this area.</li>
+                </ul>
+            </li>
+            <li><strong>Patterns & Anomalies:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Identify deviations from the norm or find hidden groupings in data.</li>
+                    <li><strong>Examples:</strong> Fraud detection, cybersecurity threat detection, predictive maintenance.</li>
+                    <li><strong>Core Tech:</strong> Often unsupervised learning algorithms.</li>
+                </ul>
+            </li>
+            <li><strong>Predictive Analytics & Decision Support:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Forecast future outcomes based on historical data.</li>
+                    <li><strong>Examples:</strong> Sales forecasting, customer churn prediction, dynamic pricing.</li>
+                    <li><strong>Core Tech:</strong> Regression and classification algorithms.</li>
+                </ul>
+            </li>
+            <li><strong>Hyperpersonalization:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Tailor content and recommendations to each individual, treating them as a unique profile rather than part of a bucket.</li>
+                    <li><strong>Examples:</strong> Netflix/Spotify recommendations, personalized ads.</li>
+                    <li><strong>Core Tech:</strong> Recommendation engines, behavioral profiling.</li>
+                </ul>
+            </li>
+            <li><strong>Autonomous Systems:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Systems that operate with minimal human intervention in dynamic environments.</li>
+                    <li><strong>Examples:</strong> Self-driving cars, warehouse robots, intelligent <span class="key-term">Robotic Process Automation (RPA)</span>.</li>
+                    <li><strong>Key Distinction:</strong> Automation repeats; Autonomy perceives, predicts, and plans. RPA is automation, but when enhanced with AI to handle variability, it becomes Intelligent Process Automation.</li>
+                </ul>
+            </li>
+            <li><strong>Goal-Driven Systems:</strong>
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Goal:</strong> Optimize towards a defined objective through trial and error.</li>
+                    <li><strong>Examples:</strong> Game playing (DeepMind's <span class="key-term">AlphaGo</span>), logistics optimization, real-time ad bidding.</li>
+                    <li><strong>Core Tech:</strong> <span class="key-term">Reinforcement Learning</span>.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2 id="task3">Task 3: Applying Machine Learning Fundamentals</h2>
+        <p><span class="key-term">Machine Learning (ML)</span> is the engine of modern AI. It is defined as: "A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P if its performance at tasks in T, as measured by P, improves with experience E."</p>
+        
+        <h4>Core ML Concepts</h4>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Algorithm vs. Model:</strong> An <span class="key-term">Algorithm</span> is the recipe (e.g., decision tree algorithm). A <span class="key-term">Model</span> is the output of running that algorithm on data; it's the learned artifact you deploy.</li>
+            <li><strong>Prediction, Inference, Generalization:</strong> <span class="key-term">Inference</span> is using a trained model to make a <span class="key-term">Prediction</span> on new data. <span class="key-term">Generalization</span> is the model's ability to perform well on new, unseen data, which is the ultimate goal.</li>
+            <li><strong>Probabilistic vs. Deterministic:</strong> ML systems are probabilistic; they provide results with a degree of probability. Traditional software is deterministic; the same input yields the same output every time.</li>
+            <li><strong>Heuristic vs. Brute-force Search:</strong> A <span class="key-term">brute-force</span> approach tries every possible solution. A <span class="key-term">heuristic</span> is a mental shortcut or rule of thumb to solve problems more quickly. ML is often used to learn powerful heuristics from data.</li>
+        </ul>
+
+        <h4>Three Main Types of Machine Learning</h4>
+        <ol class="list-decimal list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Supervised Learning:</strong> Learning from <span class="key-term">labeled data</span>. The algorithm is given examples with the correct answers.
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Classification:</strong> Predicting a discrete category (e.g., "spam" or "not spam"). A <span class="key-term">Classifier</span> is the algorithm that does this. It can be a <span class="key-term">Binary Classifier</span> (two classes) or a <span class="key-term">Multiclass Classifier</span> (more than two classes). It learns a <span class="key-term">Decision Boundary</span> to separate the classes.</li>
+                    <li><strong>Regression:</strong> Predicting a continuous value (e.g., house price). <span class="key-term">Linear Regression</span> is a basic form that fits a line to the data.</li>
+                </ul>
+            </li>
+            <li><strong>Unsupervised Learning:</strong> Finding patterns in <span class="key-term">unlabeled data</span>.
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><strong>Clustering:</strong> Grouping similar data points. This is also known as <span class="key-term">Cluster Analysis</span>.</li>
+                </ul>
+            </li>
+            <li><strong>Reinforcement Learning:</strong> An "agent" learns by trial and error, taking actions in an "environment" to maximize a "reward".</li>
+        </ol>
+
+        <h4>Key Data Concepts in ML</h4>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><span class="key-term">Feature</span>: A measurable input variable (a column in a dataset). Also called a dimension.</li>
+            <li><span class="key-term">Feature Engineering</span>: Creating new, more informative features from raw data to improve model performance. This was a highly manual and critical task before deep learning began to automate it.</li>
+            <li><span class="key-term">Dimensionality</span>: The number of features. The "Curse of Dimensionality" states that as dimensions increase, the amount of data needed for a good model grows exponentially, and the data becomes sparse. <span class="key-term">Dimensionality Reduction</span> techniques are used to combat this by reducing the number of input variables.</li>
+            <li><span class="key-term">Tokenization</span>: Breaking text into smaller, meaningful units ("tokens"), such as words or sub-words. This is a fundamental first step for any NLP task.</li>
+            <li><span class="key-term">Vectorization / Embedding</span>: Converting tokens into numerical vectors that machine learning models can understand. These vectors are multi-dimensional and capture the semantic meaning and relationships between words (e.g., the vectors for "king" and "queen" will be mathematically closer than the vectors for "king" and "car").</li>
+        </ul>
+    </div>
+</body>
+</html>

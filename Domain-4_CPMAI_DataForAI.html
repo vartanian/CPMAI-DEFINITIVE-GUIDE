@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPMAI Deep Dive: Domain IV - Data for AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .key-term {
+            background-color: #fefce8;
+            border: 1px solid #facc15;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #713f12;
+        }
+        h2 {
+            border-bottom: 2px solid #d1d5db;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        h4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .pro-tip h4 {
+            color: #0369a1;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-8">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">CPMAI Deep Dive: Domain IV - Data for AI</h1>
+        <p class="text-lg text-gray-600 mb-6">This document provides a comprehensive, in-depth overview of all concepts for Domain IV, focusing on the critical role of data in AI projects.</p>
+
+        <h2 id="task1">Task 1: Managing Data Fundamentals and Big Data Concepts</h2>
+        
+        <h3>Data Fuels Intelligence</h3>
+        <p>The resurgence of AI is inextricably linked to the rise of Big Data. AI has always been data-hungry, but only recently have we had the infrastructure and know-how to handle the massive datasets required to train powerful models. A successful AI project requires a data-first approach.</p>
+
+        <h4>The "V's" of Big Data</h4>
+        <p>Big Data is defined by several characteristics, often called the "V's":</p>
+        <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+            <li><strong>Volume:</strong> The sheer quantity of data, now measured in petabytes, exabytes, and zettabytes. This creates challenges in storage, retrieval, and management.</li>
+            <li><strong>Variety:</strong> The different forms of data.
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><span class="key-term">Structured Data</span>: Highly organized data in tables with rows and columns (e.g., databases, spreadsheets).</li>
+                    <li><span class="key-term">Unstructured Data</span>: Data with no predefined model (e.g., text documents, emails, images, audio, video). Over 80% of enterprise data is unstructured, holding immense untapped value.</li>
+                    <li><span class="key-term">Semi-structured Data</span>: Data that isn't in a relational database but has some organizational properties, like tags (e.g., JSON, XML, log files).</li>
+                </ul>
+            </li>
+            <li><strong>Velocity:</strong> The speed at which data is generated and must be processed. This is crucial for real-time applications like fraud detection or IoT analytics.</li>
+            <li><strong>Veracity:</strong> The quality, accuracy, and trustworthiness of the data. This is often the biggest challenge, dealing with noise, bias, anomalies, and data lineage issues.</li>
+        </ul>
+
+        <h4>Types of Analytics and the DIKUW Pyramid</h4>
+        <p>The value derived from data increases as we move up the analytics ladder, which corresponds to the DIKUW (Data, Information, Knowledge, Understanding, Wisdom) pyramid.</p>
+        <ol class="list-decimal list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Descriptive Analytics:</strong> What happened? (e.g., dashboards, reports). Corresponds to Data/Information.</li>
+            <li><strong>Diagnostic Analytics:</strong> Why did it happen? (e.g., root cause analysis). Corresponds to Information/Knowledge.</li>
+            <li><strong>Predictive Analytics:</strong> What will happen? This is a core application of machine learning. Corresponds to Knowledge/Understanding.</li>
+            <li><strong>Prescriptive Analytics:</strong> What should we do about it? (e.g., optimization, recommendation engines). Corresponds to Understanding/Wisdom.</li>
+        </ol>
+        <p>The sweet spot for AI projects is moving the organization from Descriptive/Diagnostic to Predictive and Prescriptive analytics, solidly into the "Knowledge" and "Understanding" levels of the DIKUW pyramid.</p>
+
+        <h2 id="task2">Task 2: Implementing Data Governance and Management</h2>
+        <p><span class="key-term">Data Management</span> is the practice of collecting, organizing, protecting, and storing an organization's data so it can be analyzed for business decisions. <span class="key-term">Data Governance</span> is a subset of Data Management that sets the policies and procedures for ensuring data is handled correctly.</p>
+
+        <h4>Key Roles and Concepts</h4>
+        <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+            <li><span class="key-term">Data Governance</span>: The processes, procedures, standards, and tools an organization implements to ensure data is properly stored, managed, secured, and controlled over its lifecycle.</li>
+            <li><span class="key-term">Data Stewardship</span>: The implementation and enforcement of data governance policies. A <span class="key-term">Data Steward</span> is a person responsible for ensuring data is accessible, trustworthy, and secure.</li>
+            <li><span class="key-term">Data Custodian</span>: A role typically in IT responsible for the technical environment and database structure.</li>
+            <li><span class="key-term">Data Lifecycle Management</span>: Managing data from its creation/collection through to its storage, usage, sharing, archiving, and eventual destruction.</li>
+            <li><span class="key-term">Master Data Management (MDM)</span>: Creating a single, authoritative "master" record for critical data entities (like customers or products) to ensure consistency across the organization.</li>
+            <li><span class="key-term">Data Lineage</span>: Documenting the origin of data and tracking its journey and transformations through various systems. This is critical for auditing, trust, and debugging.</li>
+            <li><span class="key-term">Data Quality Management</span>: The process of improving and maintaining the quality of data based on metrics like accuracy, completeness, consistency, timeliness, and validity.</li>
+        </ul>
+
+        <h2 id="task3">Task 3: Engineering Data Pipelines for AI</h2>
+        <p>A <span class="key-term">Data Pipeline</span> is an automated set of processes that moves and transforms data from various sources to a destination (like a data lake or data warehouse) where it can be used for analysis or model training.</p>
+        
+        <h4>Training vs. Inference Pipelines</h4>
+        <p>A critical concept in AI projects is the need for two distinct data pipelines:</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Training Pipeline:</strong> Gathers and prepares large batches of historical data for model training. This pipeline is run to create or update a model.</li>
+            <li><strong>Inference Pipeline:</strong> Prepares live, incoming data in real-time or in small batches so it's in the correct format for the deployed model to make predictions. This pipeline must perform the exact same transformations as the training pipeline to avoid errors.</li>
+        </ul>
+        <p>Automation, documentation, and version control are key to building robust and reliable data pipelines.</p>
+
+        <h2 id="task4">Task 4: Executing Data Preparation and Transformation</h2>
+        <div class="pro-tip">
+            <h4>"Garbage In, Garbage Out"</h4>
+            <p>This is the most important principle in data for AI. No matter how sophisticated your algorithm is, it will produce poor results if trained on poor-quality data. Data preparation is not an optional step; it is the foundation of the entire project and often consumes 80% of the project's time and effort.</p>
+        </div>
+        
+        <h3>Key Data Preparation Tasks</h3>
+        <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+            <li><strong>Data Cleaning (Cleansing):</strong> Handling missing values, removing duplicates, correcting errors, removing irrelevant data or "noise," and anonymizing data.</li>
+            <li><strong>Data Transformation:</strong> Converting data into a suitable format, such as normalizing numerical values to a standard scale or standardizing date formats.</li>
+            <li><strong>Data Augmentation / Multiplication:</strong> Artificially increasing the size and diversity of the training set. For images, this can include rotating, scaling, or colorizing. This helps the model generalize better and is useful when data is scarce.</li>
+            <li><strong>Data Labeling / Annotation:</strong> The process of adding metadata (labels) to raw data for supervised learning. This is a manual, time-consuming, and expensive process.
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li>For images, this might involve drawing <span class="key-term">bounding boxes</span> around objects.</li>
+                    <li>For autonomous systems, this can involve <span class="key-term">sensor fusion</span>, where data from multiple sensors (e.g., LiDAR, camera) is combined and labeled.</li>
+                </ul>
+            </li>
+            <li><strong>Data Splitting:</strong> Dividing the prepared dataset into training, validation, and test sets to properly train and evaluate the model without data leakage.</li>
+            <li><strong>Balancing Datasets:</strong> If one class is heavily over-represented in your data (e.g., 99% non-fraudulent transactions, 1% fraudulent), the model may become biased. Techniques like over-sampling the minority class or under-sampling the majority class can be used to create a more balanced dataset for training.</li>
+        </ul>
+    </div>
+</body>
+</html>

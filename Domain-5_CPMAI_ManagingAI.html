@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPMAI Deep Dive: Domain V - Managing AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .key-term {
+            background-color: #fefce8;
+            border: 1px solid #facc15;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #713f12;
+        }
+        h2 {
+            border-bottom: 2px solid #d1d5db;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        h4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .pro-tip {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .pro-tip h4 {
+            color: #0369a1;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .caution-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .caution-box h4 {
+            color: #b45309;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-8">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">CPMAI Deep Dive: Domain V - Managing AI</h1>
+        <p class="text-lg text-gray-600 mb-6">This document provides a comprehensive, in-depth overview of all concepts for Domain V, covering model evaluation, performance management, and deployment.</p>
+
+        <h2 id="task1">Task 1: Evaluating Model Performance and Accuracy</h2>
+        <p>This task covers the activities of CPMAI Phase V: Model Evaluation. This is the Quality Assurance (QA) phase for AI, ensuring the model is reliable, accurate, and aligned with business goals before deployment.</p>
+
+        <h3>Model Validation and Testing</h3>
+        <p>The goal of validation is to assess the model's <span class="key-term">generalization performance</span>—how well it performs on new, unseen data.</p>
+        
+        <h4>Training, Validation, and Test Sets</h4>
+        <p>To properly evaluate a model, the prepared data is split into three distinct sets:</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Training Set:</strong> The largest portion of the data, used to train the model's parameters (e.g., the weights and biases in a neural network).</li>
+            <li><strong>Validation Set:</strong> A portion of the data used during the training phase to tune the model's <span class="key-term">hyperparameters</span> (e.g., learning rate, number of layers) and to check for overfitting.</li>
+            <li><strong>Test Set (Holdout Set):</strong> A completely unseen dataset that is used only once at the very end to get an unbiased evaluation of the final, tuned model's performance.</li>
+        </ul>
+
+        <h4>Addressing Overfitting and Underfitting: The Bias-Variance Tradeoff</h4>
+        <p>A fundamental challenge in machine learning is finding the right balance between being too simple and too complex.</p>
+        <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+            <li><span class="key-term">Underfitting (High Bias)</span>: The model is too simple to capture the underlying patterns in the data. It performs poorly on both the training data and new data. The model makes overly simplistic assumptions.</li>
+            <li><span class="key-term">Overfitting (High Variance)</span>: The model learns the training data too well, including its noise and random fluctuations. It performs exceptionally well on the training data but fails to generalize to new, unseen data.</li>
+            <li><strong>The Goal:</strong> The goal of model tuning is to find the "sweet spot" with low bias and low variance, where the model generalizes well to new data.</li>
+        </ul>
+        <img src="https://i.imgur.com/8aZ4X1g.png" alt="Bias-Variance Tradeoff" class="mx-auto my-4 rounded-lg shadow-md" style="max-width: 500px;">
+
+        <h4>Key Performance Metrics (for Classification)</h4>
+        <p>The <span class="key-term">Confusion Matrix</span> is the foundation for most classification metrics. It provides a detailed breakdown of a model's performance by comparing its predictions to the actual ground truth.</p>
+        <img src="https://i.imgur.com/gK2fC4B.png" alt="Confusion Matrix" class="mx-auto my-4 rounded-lg shadow-md" style="max-width: 450px;">
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><span class="key-term">Accuracy</span>: (TP + TN) / Total. The percentage of total predictions that were correct. <strong>Warning:</strong> This can be very misleading for imbalanced datasets (e.g., a model that always predicts "not fraud" will have 99% accuracy if only 1% of transactions are fraudulent).</li>
+            <li><span class="key-term">Precision</span>: TP / (TP + FP). Of all the times the model predicted positive, how often was it correct? High precision minimizes False Positives.</li>
+            <li><span class="key-term">Recall (Sensitivity)</span>: TP / (TP + FN). Of all the actual positive cases, how many did the model correctly identify? High recall minimizes False Negatives.</li>
+            <li><span class="key-term">F1-Score</span>: The harmonic mean of Precision and Recall (2 * (Precision * Recall) / (Precision + Recall)). It provides a single score that balances the tradeoff between precision and recall.</li>
+            <li><span class="key-term">Receiver Operating Characteristic (ROC) Curve</span>: A graph that plots the True Positive Rate (Recall) against the False Positive Rate at various threshold settings. The Area Under the Curve (AUC) provides a single measure of a classifier's performance across all thresholds.</li>
+        </ul>
+        <div class="pro-tip">
+            <h4>Precision vs. Recall Trade-off</h4>
+            <p>The choice between prioritizing Precision or Recall is a business decision:</p>
+            <ul>
+                <li><strong>Prioritize Precision when False Positives are costly.</strong> Example: A spam filter incorrectly marking an important email as spam (a false positive) is very bad.</li>
+                <li><strong>Prioritize Recall when False Negatives are costly.</strong> Example: A medical test failing to detect a disease (a false negative) is very bad.</li>
+            </ul>
+        </div>
+
+        <h4>Aligning with Business and Technology KPIs</h4>
+        <p>A model is only successful if it meets both technical and business goals.</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Business KPIs:</strong> Does the model's performance translate to the ROI defined in Phase I? (e.g., Does a high-recall fraud model actually reduce financial losses by the projected amount?).</li>
+            <li><strong>Technology KPIs:</strong> Does the model meet operational requirements? This includes model size, memory usage, training time, and <span class="key-term">inference</span> speed (how quickly it makes a prediction).</li>
+        </ul>
+
+        <h2 id="task2">Task 2: Deploying Models for Production Environments</h2>
+        <p>This task covers the activities of CPMAI Phase VI: Model Operationalization. This is where the validated model is put into real-world use.</p>
+
+        <h3>Training vs. Inference</h3>
+        <p>It's crucial to distinguish between the two phases of a model's life:</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><strong>Training:</strong> The computationally intensive process of learning the model from data. Often requires powerful hardware like GPUs.</li>
+            <li><strong>Inference:</strong> The process of using the trained model to make predictions on new data. This is typically much faster and less resource-intensive.</li>
+        </ul>
+
+        <h3>Deployment Environments</h3>
+        <p>A model can be operationalized in several locations, depending on the use case:</p>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><span class="key-term">On-Premise</span>: Deploying the model on the company's own internal servers. This is often chosen for security, data privacy, compliance, or low-latency requirements.</li>
+            <li><span class="key-term">Cloud</span>: Using a cloud provider (AWS, Azure, GCP) for scalable deployment. This is the most common approach and leverages <span class="key-term">Machine Learning-as-a-Service (MLaaS)</span> platforms.</li>
+            <li><span class="key-term">Edge Device</span>: Deploying a smaller, optimized model directly onto a device like a mobile phone, a camera, or an IoT sensor. This allows for real-time inference with no network latency and can work offline.</li>
+        </ul>
+
+        <h3>Model Operationalization Approaches</h3>
+        <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+            <li><span class="key-term">Batch Prediction</span>: The model runs on a schedule (e.g., once a day) to process a large batch of data. Best for when real-time results are not needed.</li>
+            <li><span class="key-term">Microservice (On-Demand)</span>: The model is wrapped in an API and can be called by other applications to get a prediction on demand. This is a very flexible and scalable approach.</li>
+            <li><span class="key-term">Real-Time Prediction / Stream Learning</span>: The model processes incoming data as a continuous stream, making predictions instantly. This is required for applications like real-time fraud detection.</li>
+        </ul>
+
+        <h3>Model Lifecycle Management and MLOps</h3>
+        <p><span class="key-term">Machine Learning Operations (MLOps)</span> is a set of practices that combines Machine Learning, DevOps, and Data Engineering to manage the entire ML lifecycle. It is essential for maintaining the performance and reliability of models in production.</p>
+        <p>Key MLOps practices include:</p>
+        <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+            <li><strong>Model Versioning:</strong> Treating models as artifacts that are version-controlled, just like software code. This allows for reproducibility and rollbacks.</li>
+            <li><strong>Continuous Monitoring:</strong> Actively tracking model performance in production to detect:
+                <ul class="list-disc list-inside ml-6 mt-2">
+                    <li><span class="key-term">Model Drift (Concept Drift)</span>: The relationship between the model's inputs and outputs changes over time, reducing the model's accuracy.</li>
+                    <li><span class="key-term">Data Drift</span>: The statistical properties of the input data change over time, making it different from the data the model was trained on.</li>
+                </ul>
+            </li>
+            <li><strong>Automated Retraining:</strong> Having pipelines in place to automatically trigger and execute model <span class="key-term">retraining</span> on new data when performance degrades below a certain threshold.</li>
+            <li><strong>Model Governance:</strong> Providing controls, processes, and audit trails for how models are built, approved, deployed, and used.</li>
+        </ul>
+    </div>
+</body>
+</html>

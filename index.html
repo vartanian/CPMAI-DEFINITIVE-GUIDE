@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate CPMAI v7 Certification Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .sidebar {
+            width: 280px;
+        }
+        .main-content {
+            margin-left: 280px;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #111827; /* gray-900 */
+            transform: translateX(4px);
+        }
+        .pro-tip {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .pro-tip h4 {
+            color: #0369a1;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .key-term {
+            background-color: #fefce8;
+            border: 1px solid #facc15;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #713f12;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .key-term:hover {
+            background-color: #fde047;
+        }
+        .compare-term {
+            border-bottom: 2px dotted #9333ea;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7e22ce;
+        }
+        .caution-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .caution-box h4 {
+            color: #b45309;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        h2 {
+            border-bottom: 2px solid #d1d5db;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h4 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .ai-feature-btn {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 500;
+            border: 1px solid #c084fc;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .ai-feature-btn:hover {
+            background-color: #e9d5ff;
+            transform: translateY(-1px);
+        }
+        /* AI Tutor Chatbot Styles */
+        #chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-width: 90%;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            display: none;
+            flex-direction: column;
+            height: 500px;
+            z-index: 9998;
+        }
+        #chat-toggle-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 9999; /* Increased z-index */
+            transition: transform 0.2s ease-in-out;
+        }
+        #chat-toggle-button:hover {
+            transform: scale(1.1);
+        }
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #dbeafe;
+            align-self: flex-end;
+        }
+        .ai-message {
+            background-color: #e5e7eb;
+            align-self: flex-start;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Quiz Styles */
+        .quiz-option-label {
+            display: block;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .quiz-option-label:has(input:checked) {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .quiz-option-label.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .quiz-option-label.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        /* Modal Styles */
+        #modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        #modal {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white shadow-md p-6 fixed h-full overflow-y-auto">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6">CPMAI v7 Study Guide</h1>
+            <nav id="sidebar-nav">
+                <ul>
+                    <li><a href="#introduction" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">Introduction</a></li>
+                    <li><a href="#domain1" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">I. AI Fundamentals</a></li>
+                    <li><a href="#domain2" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">II. CPMAI Methodology</a></li>
+                    <li><a href="#domain3" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">III. Machine Learning</a></li>
+                    <li><a href="#domain4" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">IV. Data for AI</a></li>
+                    <li><a href="#domain5" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">V. Managing AI</a></li>
+                    <li><a href="#domain6" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">VI. Trustworthy AI</a></li>
+                    <li><a href="#simulator" class="sidebar-link block py-2 px-4 rounded-lg font-medium text-gray-600">🚀 Project Simulator</a></li>
+                </ul>
+            </nav>
+            <div id="weakness-tracker" class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+                <h4 class="font-bold text-yellow-800">My Weakest Areas</h4>
+                <p class="text-sm text-yellow-700 mb-2">Review these questions you've answered incorrectly.</p>
+                <div id="weakness-list"></div>
+                <button id="clear-weaknesses-btn" class="text-sm text-red-600 hover:underline mt-2">Clear History</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content p-8 flex-1">
+            <div id="introduction" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to the Ultimate CPMAI v7 Study Guide</h1>
+                <p class="text-lg text-gray-600 mb-6">This guide provides a comprehensive, in-depth overview of all concepts, methodologies, and terminology required for the Cognitive Project Management in AI (CPMAI)™ v7 certification. It is synthesized from 100% of the official PMI course materials to ensure complete coverage.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Why CPMAI is Necessary</h2>
+                    <p class="mb-4">The CPMAI methodology was developed to address the alarmingly high failure rate of AI projects, which often exceeds 80%. Traditional project management approaches (like Waterfall or even standard Agile) are insufficient for the unique challenges of AI.</p>
+                    <p class="font-semibold">AI projects are different because they are:</p>
+                    <ul class="list-disc list-inside mt-2 mb-4 space-y-1">
+                        <li><strong>Data-Centric, not Code-Centric:</strong> The success of an AI model is fundamentally dependent on the quality and quantity of data, not just the code.</li>
+                        <li><strong>Probabilistic, not Deterministic:</strong> AI models provide predictions with a degree of uncertainty, unlike traditional software which follows explicit, predictable rules.</li>
+                        <li><strong>Iterative and Experimental:</strong> AI development involves continuous experimentation with data, algorithms, and models. The path to a solution is not linear.</li>
+                        <li><strong>Continuously Evolving:</strong> Models can degrade over time due to <span class="key-term">model drift</span> and <span class="key-term">data drift</span>, requiring ongoing monitoring and retraining.</li>
+                    </ul>
+                    <p>CPMAI provides a structured, iterative, and data-first framework to navigate these complexities, increasing the likelihood of delivering tangible business value.</p>
+                </div>
+
+                <div class="pro-tip">
+                    <h4>How to Use This Guide</h4>
+                    <p>Use the sidebar navigation to jump between the six major domains of the exam. Each section is a deep dive, covering all the tasks and enablers from the official exam outline with detailed explanations from the course slides. Pay special attention to the <span class="key-term">Key Terms</span> highlighted throughout the text, which are now clickable for instant definitions!</p>
+                </div>
+            </div>
+
+            <!-- Domain 1 Content -->
+            <div id="domain1" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain I: AI Fundamentals</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain1">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d1">Task 1: Understanding of AI Fundamentals and Evolution</h2>
+                    <h4>Defining Intelligence: Human vs. Artificial <button class="ai-feature-btn eli5-btn">ELI5</button> <button class="ai-feature-btn analogy-btn">Analogy</button></h4>
+                    <p>The pursuit of AI begins with understanding human intelligence. Key aspects include:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Perception & Understanding:</strong> Sensing the environment and processing inputs.</li>
+                        <li><strong>Learning from Experience:</strong> Adapting and improving over time.</li>
+                        <li><strong>Adaptation:</strong> Applying knowledge to new situations.</li>
+                        <li><strong>Reasoning & Problem Solving:</strong> Using logic to find solutions.</li>
+                        <li><strong>Handling Abstraction:</strong> Understanding concepts like emotions and creativity.</li>
+                        <li><strong>Goal-Directed Future:</strong> Planning and acting to achieve objectives.</li>
+                        <li><strong>Handling Ambiguity:</strong> Dealing with complex situations and incomplete information.</li>
+                    </ul>
+                    <p><span class="key-term">Artificial Intelligence (AI)</span> is the discipline of creating machines to perform these tasks. The core aspects AI aims to replicate are <strong>Perception, Prediction, and Planning</strong> within a continuous feedback loop.</p>
+
+                    <h4>Types of AI: The Spectrum of Intelligence</h4>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Artificial General Intelligence (AGI) / Strong AI</span>: A hypothetical AI that can perform any intellectual task a human can without specific retraining. <strong>This does not exist today.</strong></li>
+                        <li><span class="key-term">Narrow AI / Weak AI</span>: The current state of all AI systems, designed for a single, specific task (e.g., image recognition, playing chess).</li>
+                        <li><span class="key-term">Augmented Intelligence</span>: A human-centered partnership model combining human strengths (creativity, intuition) with AI strengths (data processing, pattern recognition).</li>
+                        <li><span class="key-term">Cognitive Computing / Technology</span>: An umbrella term for AI/ML technologies applied to specific applications, often used to avoid the stigma of "AI".</li>
+                    </ul>
+
+                    <h4>Historical Context & Key Concepts</h4>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>The Turing Test:</strong> Proposed by Alan Turing in 1950, a test of a machine's ability to exhibit behavior indistinguishable from a human. Now considered an overly simplistic measure.</li>
+                        <li><strong>AI Winters:</strong> Periods of reduced funding and interest in AI, typically caused by overpromising and underdelivering.
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>First AI Winter (mid-1970s - early 1980s):</strong> Caused by failures in machine translation and symbolic reasoning.</li>
+                                <li><strong>Second AI Winter (late 1980s - early 1990s):</strong> Caused by the collapse of the brittle and expensive <span class="key-term">Expert Systems</span> market.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Why AI Now? The "AI Summer":</strong> Driven by a convergence of three factors:
+                            <ol class="list-decimal list-inside ml-6 mt-2">
+                                <li><strong>Big Data:</strong> The massive volume of data available for training.</li>
+                                <li><strong>Advanced Algorithms:</strong> The evolution of Machine Learning, especially Deep Learning.</li>
+                                <li><strong>Powerful Compute:</strong> The availability of cheap, parallel processing power (GPUs).</li>
+                            </ol>
+                        </li>
+                        <li><span class="key-term">Symbolic Systems</span>: Early AI approach using human-readable symbols and logic rules.</li>
+                        <li><span class="key-term">Expert Systems</span>: A type of symbolic system mimicking a human expert with a knowledge base and an inference engine.</li>
+                        <li><span class="key-term">Fuzzy Logic</span>: An approach that handles approximate reasoning and degrees of truth, useful for ambiguity.</li>
+                    </ul>
+
+                    <div class="pro-tip">
+                        <h4>Exam Tip: Debunking AI Myths</h4>
+                        <p>Be prepared to distinguish reality from hype. Common myths you should be able to refute include:</p>
+                        <ul class="list-disc list-inside ml-4 mt-2">
+                            <li><strong>Myth:</strong> AI is all about superintelligent robots taking over. <strong>Reality:</strong> All current AI is Narrow AI.</li>
+                            <li><strong>Myth:</strong> <span class="compare-term" data-terms="Automation,Intelligence">Automation and Intelligence</span> are the same. <strong>Reality:</strong> Automation repeats a task; intelligence learns and adapts.</li>
+                            <li><strong>Myth:</strong> You need Google-sized datasets. <strong>Reality:</strong> Techniques like transfer learning allow for effective AI with smaller datasets.</li>
+                            <li><strong>Myth:</strong> You can just "buy AI" from a vendor. <strong>Reality:</strong> AI is a capability that must be integrated and trained on your specific data.</li>
+                        </ul>
+                    </div>
+
+                    <h2 id="task2-d1">Task 2: Evaluating AI Applications and Patterns</h2>
+                    <p>A key skill is identifying problems fit for AI. The distinction is between <strong>probabilistic</strong> (good for AI) and <strong>deterministic</strong> (poor for AI) problems.</p>
+                    <ul class="list-disc list-inside space-y-1 mt-4 mb-6">
+                        <li><strong>Good for AI (Probabilistic):</strong> Problems with variability, ambiguity, and where rules are hard to define (e.g., image classification, sales forecasting, sentiment analysis).</li>
+                        <li><strong>Poor for AI (Deterministic):</strong> Repetitive problems solvable with fixed rules (e.g., payroll calculation). These are better for traditional automation.</li>
+                    </ul>
+
+                    <h3>The Seven Patterns of AI (In-Depth)</h3>
+                    <p>These patterns are a conceptual shortcut to help define project scope, data requirements, and risks.</p>
+                    <ol class="list-decimal list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Conversational & Human Interaction:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Enable natural language interaction (text or voice).</li>
+                                <li><strong>Examples:</strong> Chatbots, voice assistants, machine translation.</li>
+                                <li><strong>Core Tech:</strong> <span class="key-term">Natural Language Processing (NLP)</span>, <span class="key-term">Natural Language Understanding (NLU)</span>, <span class="key-term">Natural Language Generation (NLG)</span>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Recognition:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Identify and extract info from unstructured data (images, audio).</li>
+                                <li><strong>Examples:</strong> Facial recognition, object detection, speech-to-text.</li>
+                                <li><strong>Core Tech:</strong> <span class="key-term">Computer Vision</span>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Patterns & Anomalies:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Identify deviations from the norm.</li>
+                                <li><strong>Examples:</strong> Fraud detection, predictive maintenance.</li>
+                                <li><strong>Core Tech:</strong> Often unsupervised learning.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Predictive Analytics & Decision Support:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Forecast future outcomes based on historical data.</li>
+                                <li><strong>Examples:</strong> Sales forecasting, customer churn prediction.</li>
+                                <li><strong>Core Tech:</strong> Regression and classification algorithms.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Hyperpersonalization:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Tailor content and recommendations to each individual.</li>
+                                <li><strong>Examples:</strong> Netflix recommendations, personalized ads.</li>
+                                <li><strong>Core Tech:</strong> Recommendation engines.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Autonomous Systems:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Systems that operate with minimal human intervention.</li>
+                                <li><strong>Examples:</strong> Self-driving cars, warehouse robots, intelligent <span class="key-term">Robotic Process Automation (RPA)</span>.</li>
+                                <li><strong>Key Distinction:</strong> Automation repeats; Autonomy perceives, predicts, and plans.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Goal-Driven Systems:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Goal:</strong> Optimize towards a defined objective through trial and error.</li>
+                                <li><strong>Examples:</strong> Game playing (DeepMind's <span class="key-term">AlphaGo</span>), logistics optimization.</li>
+                                <li><strong>Core Tech:</strong> <span class="key-term">Reinforcement Learning</span>.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h2 id="task3-d1">Task 3: Applying Machine Learning Fundamentals</h2>
+                    <p><span class="key-term">Machine Learning (ML)</span> is the engine of modern AI, allowing computers to learn from data without explicit programming.</p>
+                    
+                    <h4>Core ML Concepts</h4>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Algorithm vs. Model:</strong> An <span class="key-term">Algorithm</span> is the recipe (e.g., decision tree algorithm). A <span class="key-term">Model</span> is the output of running that algorithm on data; it's the learned artifact you deploy.</li>
+                        <li><strong>Prediction, Inference, Generalization:</strong> <span class="key-term">Inference</span> is using a trained model to make a <span class="key-term">Prediction</span> on new data. <span class="key-term">Generalization</span> is the model's ability to perform well on new, unseen data, which is the ultimate goal.</li>
+                    </ul>
+
+                    <h4>Three Main Types of Machine Learning</h4>
+                    <ol class="list-decimal list-inside space-y-2 mt-4 mb-6">
+                        <li><strong><span class="compare-term" data-terms="Supervised Learning,Unsupervised Learning">Supervised vs. Unsupervised Learning</span>:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Supervised Learning:</strong> Learning from <span class="key-term">labeled data</span>. This includes <span class="key-term">Classification</span> (predicting a category) and <span class="key-term">Regression</span> (predicting a value).</li>
+                                <li><strong>Unsupervised Learning:</strong> Finding patterns in <span class="key-term">unlabeled data</span>. This includes <span class="key-term">Clustering</span> (grouping similar data).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Reinforcement Learning:</strong> An "agent" learns by trial and error, taking actions in an "environment" to maximize a "reward".</li>
+                    </ol>
+
+                    <h4>Key Data Concepts in ML</h4>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Feature</span>: A measurable input variable (a column in a dataset). Also called a dimension.</li>
+                        <li><span class="key-term">Feature Engineering</span>: Creating new, more informative features from raw data to improve model performance.</li>
+                        <li><span class="key-term">Dimensionality</span>: The number of features. The "Curse of Dimensionality" states that as dimensions increase, the data needed for a good model grows exponentially. <span class="key-term">Dimensionality Reduction</span> techniques are used to combat this.</li>
+                        <li><span class="key-term">Tokenization</span>: Breaking text into smaller units ("tokens") for NLP.</li>
+                        <li><span class="key-term">Vectorization / Embedding</span>: Converting tokens into numerical vectors that capture their semantic meaning and relationships.</li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain1">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain1" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain1">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Domain 2 Content -->
+            <div id="domain2" class="content-section">
+                 <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain II: CPMAI Methodology</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain2">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d2">Task 1: Differentiating AI Project Management Approaches</h2>
+                    <h3>Why AI Projects Fail <button class="ai-feature-btn eli5-btn">ELI5</button> <button class="ai-feature-btn analogy-btn">Analogy</button> <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p>The CPMAI methodology was born from the high failure rate of AI projects (often cited as over 80%). These failures are rarely due to the technology itself but rather to flawed project management. Key failure reasons include:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>AI projects are NOT traditional software projects:</strong> They are data-centric and experimental, not code-centric and deterministic.</li>
+                        <li><strong>Unjustified ROI:</strong> Projects are started for the sake of "doing AI" without a clear business problem or quantifiable return on investment.</li>
+                        <li><strong>Data Quantity and Quality Issues:</strong> Underestimating the need for large volumes of clean, well-labeled data. The principle of "Garbage In, Garbage Out" is absolute.</li>
+                        <li><strong>The Proof of Concept (PoC) Trap:</strong> A PoC succeeds in a controlled lab environment but fails in the real world. CPMAI emphasizes real-world <span class="key-term">Pilots</span> instead.</li>
+                        <li><strong>Model Mismatch with Reality:</strong> The real-world data an operational model sees is different from its training data, leading to performance degradation (<span class="key-term">data drift</span> and <span class="key-term">model drift</span>).</li>
+                        <li><strong>Lack of a Continuous Lifecycle:</strong> Treating AI as a one-and-done project without planning for ongoing monitoring, maintenance, and retraining.</li>
+                        <li><strong>Vendor Hype:</strong> Choosing tools based on marketing rather than a rigorous fit-gap analysis.</li>
+                        <li><strong>Overpromising and Underdelivering:</strong> Setting unrealistic stakeholder expectations. The CPMAI mantra is: <strong>Think Big, Start Small, Iterate Often.</strong></li>
+                    </ul>
+
+                    <h3>Comparing Methodologies for AI</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse mt-4 mb-6">
+                            <thead>
+                                <tr>
+                                    <th class="border p-2 bg-gray-200">Methodology</th>
+                                    <th class="border p-2 bg-gray-200">Description</th>
+                                    <th class="border p-2 bg-gray-200">Weakness for AI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border p-2 font-semibold">Waterfall</td>
+                                    <td class="border p-2">Sequential, linear approach. Each phase must be completed before the next begins.</td>
+                                    <td class="border p-2">Completely unsuitable. It cannot handle the experimental and iterative nature of AI, where learning and adaptation are constant.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-semibold">Agile (e.g., Scrum)</td>
+                                    <td class="border p-2">Iterative approach focused on delivering working software in short sprints.</td>
+                                    <td class="border p-2">It is code-centric, not data-centric. Standard Agile lacks specific processes for data exploration, preparation, labeling, model experimentation, and retraining.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-semibold">CRISP-DM</td>
+                                    <td class="border p-2">An early iterative, data-centric methodology for data mining projects.</td>
+                                    <td class="border p-2">It is outdated and has not been updated for modern AI. It lacks guidance on MLOps, continuous retraining, governance, and trustworthy AI principles.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pro-tip">
+                        <h4>CPMAI's Value Proposition</h4>
+                        <p>CPMAI is a data-centric, AI-specific, iterative methodology. It doesn't replace Agile but augments it. You can use Agile sprints for the software components (the "scaffolding" around the model), while using the CPMAI phases to manage the data and model lifecycle, which operates on its own iterative cadence.</p>
+                    </div>
+
+                    <h2 id="task2-d2">The Six Phases of CPMAI</h2>
+                    <p class="mb-4">CPMAI is an iterative cycle, not a linear process. It's expected and encouraged to loop back to earlier phases as you learn more about the business problem, data, and model performance.</p>
+                    <img src="https://i.imgur.com/8aZ4X1g.png" alt="The Six Phases of CPMAI" class="mx-auto my-4 rounded-lg shadow-md" style="max-width: 500px;">
+
+                    <h3>Phase I: Business Understanding <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Mapping the business problem to the AI solution." This phase ensures you are solving the right problem for the right reasons before any significant technical work begins.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Formulate AI-Specific Business Questions:</strong> What is the precise pain point? Can it be solved with simpler, non-cognitive methods? If not, which of the Seven AI Patterns is the best fit?</li>
+                        <li><strong>Use the DIKUW Pyramid:</strong> Frame the project's value. Are you just turning Data into Information, or aiming for Knowledge, Understanding, and Wisdom? AI's sweet spot is moving from Information to Knowledge and Understanding.</li>
+                        <li><strong>Prioritize and Scope:</strong> Think Big, Start Small. Identify a Minimum Viable Product (MVP) or <span class="key-term">Pilot</span> (a small-scale, real-world implementation) over a <span class="key-term">PoC</span> (a lab experiment). <strong>Always favor Pilots over PoCs.</strong></li>
+                        <li><strong>Estimate ROI:</strong> Define clear success criteria and Key Performance Indicators (KPIs).</li>
+                        <li><strong>Assemble the Team:</strong> Identify roles: Project Manager, Data Engineer, Business Analyst/Domain Expert, MLOps Engineer, and Executive Sponsor. A Data Scientist may be needed if building a model from scratch.</li>
+                        <li><strong>Conduct AI Go/No-Go Assessment:</strong> A critical checkpoint evaluating:
+                            <ol class="list-decimal list-inside ml-6 mt-2">
+                                <li><strong>Business Feasibility:</strong> Is there a clear ROI and stakeholder buy-in?</li>
+                                <li><strong>Data Feasibility:</strong> Is the necessary data available, accessible, and of sufficient quality?</li>
+                                <li><strong>Implementation Feasibility:</strong> Does the organization have the skills, tools, and infrastructure?</li>
+                            </ol>
+                            If any answer is "no," you must pause and revisit before proceeding.
+                        </li>
+                    </ul>
+
+                    <h3>Phase II: Data Understanding <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Getting a hold of the right data to address the problem."</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Data Source Inventory:</strong> Catalog all potential data sources and identify owners, location, and access methods.</li>
+                        <li><strong>Assess Data Quality & the "V's" of Big Data:</strong> Evaluate data for Volume, Variety, Velocity, and especially <span class="key-term">Veracity</span> (trustworthiness).</li>
+                        <li><strong>Data Governance and Privacy:</strong> Confirm rights to use the data and comply with regulations like <span class="key-term">GDPR</span>. Protect <span class="key-term">PII</span>.</li>
+                        <li><strong>Identify Training Data:</strong> This includes <span class="key-term">"Ground Truth" Data</span> (collected from real sources) and potentially <span class="key-term">Synthetic Data</span> (artificially generated data).</li>
+                        <li><strong>Data Feasibility Check:</strong> A second Go/No-Go gate. If data is sparse, poor quality, or has governance roadblocks, iterate back to Phase I to adjust scope.</li>
+                    </ul>
+                    
+                    <h3>Phase III: Data Preparation <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Getting the data ready for use." This is often the most time-consuming phase (up to 80% of project effort).</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Data Cleaning:</strong> Handling missing values, removing duplicates, correcting errors.</li>
+                        <li><strong>Data Transformation:</strong> Normalizing data, changing formats.</li>
+                        <li><strong>Data Augmentation:</strong> Artificially increasing the size of the training set (e.g., rotating images).</li>
+                        <li><strong>Data Labeling and Annotation:</strong> Crucial for supervised learning. This involves adding metadata to raw data (e.g., drawing <span class="key-term">bounding boxes</span> on images).</li>
+                        <li><strong>Develop Data Pipelines:</strong> Create automated, repeatable workflows (ETL/ELT) for both training and inference data.</li>
+                    </ul>
+
+                    <h3>Phase IV: Model Development <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Producing an AI solution that addresses the business problem."</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Algorithm and Tool Selection:</strong> Choose algorithms and tools that fit the AI pattern and data.</li>
+                        <li><strong>Leverage Pre-trained Models & <span class="key-term">Transfer Learning</span>:</strong> Don't reinvent the wheel. Use existing models (like <span class="key-term">Foundation Models</span>) and fine-tune them with your specific data. This dramatically reduces data and time requirements.</li>
+                        <li><strong>Model Training and Tuning:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>Split data into training, validation, and test sets.</li>
+                                <li>Train the model on the training set.</li>
+                                <li>Tune <span class="key-term">hyperparameters</span> (configurable settings of the algorithm) using the validation set to optimize performance.</li>
+                            </ul>
+                        </li>
+                         <li><strong>Accelerate with <span class="key-term">AutoML</span>:</strong> Use Automated Machine Learning tools to automate algorithm selection and hyperparameter tuning.</li>
+                    </ul>
+
+                    <h3>Phase V: Model Evaluation <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Determining whether the AI solution meets the real-world and business needs." This is the quality assurance (QA) phase for AI.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Evaluate Technical Performance:</strong> Use the held-out test set to measure performance.
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>For classification, use a <span class="key-term">Confusion Matrix</span> to calculate metrics like <span class="key-term">Accuracy</span>, <span class="key-term">Precision</span>, <span class="key-term">Recall</span>, and <span class="key-term">F1-Score</span>.</li>
+                                <li>Check for <span class="key-term">overfitting</span> (model is too specific to training data) and <span class="key-term">underfitting</span> (model is too simple).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Evaluate Business Performance:</strong> Verify that the model meets the KPIs and ROI goals defined in Phase I.</li>
+                        <li><strong>Plan for Model Iteration:</strong> Address <span class="key-term">data drift</span> and <span class="key-term">model drift</span> by planning for model retraining.</li>
+                        <li><strong>Deployment Go/No-Go Decision:</strong> The final gate. If the model fails to meet thresholds, iterate back to earlier phases.</li>
+                    </ul>
+
+                    <h3>Phase VI: Model Operationalization <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><strong>Goal:</strong> "Putting the AI solution to use in the real-world and iterating."</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Determine Deployment Environment:</strong> Decide where the model will run: on-premise, in the cloud, or on an <span class="key-term">edge device</span> (e.g., a mobile phone).</li>
+                        <li><strong>Determine Operationalization Approach:</strong> Will it be <span class="key-term">Batch Prediction</span> (run on a schedule), a <span class="key-term">Microservice</span> (on-demand), or <span class="key-term">Real-time Prediction</span> (streaming)?</li>
+                        <li><strong>Implement <span class="key-term">MLOps</span>:</strong> Apply DevOps principles to AI. This includes continuous monitoring for drift, model versioning, and creating automated retraining pipelines.</li>
+                        <li><strong>Ready for the Next Iteration:</strong> Once a model is live, the CPMAI cycle begins again. The feedback and data gathered from the operational model feed into the Business Understanding phase for the next iteration.</li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain2">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain2" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain2">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Domain 3 Content -->
+            <div id="domain3" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain III: Machine Learning</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain3">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d3">Task 1: Applying Classification and Clustering Algorithms</h2>
+                    <h3>Classification Algorithms (Supervised)</h3>
+                    <p>Classification algorithms are used for supervised learning tasks where the goal is to predict a discrete category or class. A <span class="key-term">Classifier</span> is an algorithm that implements classification.</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><span class="key-term">Naive Bayes</span>: A simple and fast probabilistic classifier based on Bayes' Theorem. It's "naive" because it assumes that all features are independent of one another, which is rarely true but often works well enough. It is particularly effective for text classification tasks like spam filtering.</li>
+                        <li><span class="key-term">K-Nearest Neighbors (KNN)</span>: A non-parametric, "lazy learning" algorithm. It classifies a new data point based on the majority class of its 'k' nearest neighbors in the feature space. "Lazy" means it doesn't build a model during training; all computation is deferred until inference.</li>
+                        <li><span class="key-term">Support Vector Machines (SVM)</span>: A powerful classifier that works by finding the optimal hyperplane (decision boundary) that best separates data points of different classes with the maximum possible margin.</li>
+                        <li><span class="key-term">Decision Trees</span>: A tree-like model where each internal node represents a "test" on a feature, each branch represents the outcome of the test, and each leaf node represents a class label. They are highly interpretable ("white box") but can be prone to overfitting.</li>
+                        <li><span class="key-term">Ensemble Methods</span>: A technique that combines multiple individual models (often called "weak learners") to produce a more robust and accurate prediction than any single model.
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Random Forest:</strong> An ensemble of many decision trees. It builds each tree on a different random subset of the data and features, which helps to reduce overfitting and improve generalization.</li>
+                                <li><strong>Boosted Trees (e.g., XGBoost):</strong> An ensemble method that builds trees sequentially. Each new tree is trained to correct the errors made by the previous ones. This approach often yields state-of-the-art performance on structured (tabular) data.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Clustering Algorithms (Unsupervised)</h3>
+                    <p>Clustering algorithms are used for unsupervised learning tasks to group similar, unlabeled data points together.</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><span class="key-term">K-Means Clustering</span>: An iterative algorithm that partitions data into 'k' predefined clusters. Each data point belongs to the cluster with the nearest mean (centroid). It is fast and works well on moderately sized datasets.</li>
+                        <li><span class="key-term">Gaussian Mixture Model (GMM)</span>: A probabilistic model that assumes data points are generated from a mixture of several Gaussian (bell curve) distributions. Unlike K-Means, it allows for "soft" cluster assignments, where a data point can belong to multiple clusters with different probabilities.</li>
+                    </ul>
+                    
+                    <h2 id="task2-d3">Task 2: Implementing Neural Networks and Deep Learning</h2>
+                    <h4>How Neural Networks Work <button class="ai-feature-btn eli5-btn">ELI5</button> <button class="ai-feature-btn analogy-btn">Analogy</button></h4>
+                    <p><span class="key-term">Artificial Neural Networks (ANNs)</span> are machine learning models inspired by the structure of the human brain. They consist of interconnected <span class="key-term">nodes (neurons)</span> organized in <span class="key-term">layers</span>.</p>
+                    
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Structure:</strong> A neural network has an input layer, one or more <span class="key-term">hidden layers</span>, and an output layer.</li>
+                        <li><strong>Neurons:</strong> Each neuron receives inputs, multiplies them by <span class="key-term">weights</span> (parameters learned during training), adds a <span class="key-term">bias</span>, and passes the result through an <span class="key-term">activation function</span> (e.g., ReLU).</li>
+                        <li><strong>Non-linearity:</strong> The activation function introduces non-linearity, which is crucial for allowing the network to learn complex patterns that are not linearly separable.</li>
+                        <li><span class="key-term">Deep Learning</span> refers to neural networks with many hidden layers. This "depth" allows them to learn a hierarchy of features, from simple (like edges in an image) to complex (like faces).</li>
+                        <li><strong>Training:</strong> Networks are trained using an algorithm called <span class="key-term">backpropagation</span>, which works with <span class="key-term">gradient descent</span> to iteratively adjust the weights and biases to minimize a <span class="key-term">loss function</span> (a measure of the model's error).</li>
+                    </ul>
+
+                    <h4>Key Deep Learning Architectures</h4>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><span class="key-term">Convolutional Neural Networks (CNNs)</span>: The state-of-the-art for computer vision. They use special "convolutional" layers that act like filters to automatically detect features like edges, shapes, and textures in images, regardless of their position.</li>
+                        <li><span class="key-term">Recurrent Neural Networks (RNNs)</span>: Designed for sequential data like text or time series. They have loops that allow information to persist from one step to the next, giving them a form of "memory".</li>
+                        <li><span class="key-term">Long Short-Term Memory (LSTM)</span>: A special, more complex type of RNN that is much better at learning long-range dependencies in sequential data, solving a key weakness of basic RNNs called the "vanishing gradient problem".</li>
+                    </ul>
+
+                    <h2 id="task3-d3">Task 3: Leveraging Generative AI and Large Language Models (LLMs)</h2>
+                    <p><span class="key-term">Generative AI</span> refers to models that can create new, original content (text, images, code) that mimics the patterns in the data they were trained on.</p>
+
+                    <h4>Large Language Models (LLMs)</h4>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Foundation Models</span>: Very large, pre-trained models (like LLMs) that are trained on a massive amount of broad data and can be adapted to a wide range of downstream tasks.</li>
+                        <li><span class="key-term">Transformer Architecture</span>: The breakthrough deep learning architecture that powers most modern LLMs (e.g., GPT-4, LLaMa). Its key innovation is the "attention mechanism," which allows the model to weigh the importance of different words in the input text when generating an output.</li>
+                        <li><strong>How to use LLMs:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Prompt Engineering</span>: The art and science of carefully crafting the input text (the prompt) to guide the LLM to produce the desired output. This is a powerful way to customize model behavior without retraining.</li>
+                                <li><span class="key-term">Fine-Tuning</span>: Further training a pre-trained foundation model on a smaller, domain-specific dataset to specialize its knowledge and capabilities.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Challenges:</strong> Be aware of issues like <span class="key-term">hallucination</span> (the model confidently making up facts), potential for bias amplification, and intellectual property concerns related to training data.</li>
+                    </ul>
+                    
+                    <h2 id="task4-d3">Task 4: Selecting Machine Learning Tools and Platforms</h2>
+                    <p>The ML ecosystem is fragmented, and a project manager should be aware of the key components.</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Languages:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Python</span>: The dominant language for ML due to its simplicity and extensive libraries.</li>
+                                <li><span class="key-term">R</span>: Also popular, especially in statistics and academic research.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Core Frameworks:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Scikit-learn</span>: The go-to Python library for traditional ML algorithms (SVM, Random Forest, K-Means, etc.).</li>
+                                <li><span class="key-term">TensorFlow & PyTorch</span>: The two leading open-source frameworks for building and training deep learning models.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Development Environments:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Jupyter Notebooks</span>: Interactive, web-based environments that allow data scientists to write and execute code, visualize data, and document their work in one place. Essential for exploration and experimentation.</li>
+                                <li><strong>Google Colab:</strong> A free, cloud-based Jupyter Notebook environment that provides access to GPUs.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Platforms:</strong>
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Cloud MLaaS (Machine Learning-as-a-Service):</strong> Platforms from AWS, Google Cloud, and Azure that provide a suite of tools for the entire ML lifecycle, from data preparation to model deployment and monitoring.</li>
+                                <li><strong>Kaggle:</strong> A platform that started with ML competitions but has evolved into a community with datasets, notebooks, and pre-trained models.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain3">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain3" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain3">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+             <!-- Domain 4 Content -->
+            <div id="domain4" class="content-section">
+                 <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain IV: Data for AI</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain4">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d4">Task 1: Managing Data Fundamentals and Big Data Concepts</h2>
+                    <h3>Data Fuels Intelligence</h3>
+                    <p>The resurgence of AI is inextricably linked to the rise of Big Data. AI has always been data-hungry, but only recently have we had the infrastructure and know-how to handle the massive datasets required to train powerful models. A successful AI project requires a data-first approach.</p>
+
+                    <h4>The "V's" of Big Data</h4>
+                    <p>Big Data is defined by several characteristics, often called the "V's":</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Volume:</strong> The sheer quantity of data, now measured in petabytes, exabytes, and zettabytes. This creates challenges in storage, retrieval, and management.</li>
+                        <li><strong>Variety:</strong> The different forms of data.
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Structured Data</span>: Highly organized data in tables with rows and columns (e.g., databases, spreadsheets).</li>
+                                <li><span class="key-term">Unstructured Data</span>: Data with no predefined model (e.g., text documents, emails, images, audio, video). Over 80% of enterprise data is unstructured, holding immense untapped value.</li>
+                                <li><span class="key-term">Semi-structured Data</span>: Data that isn't in a relational database but has some organizational properties, like tags (e.g., JSON, XML, log files).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Velocity:</strong> The speed at which data is generated and must be processed. This is crucial for real-time applications like fraud detection or IoT analytics.</li>
+                        <li><strong>Veracity:</strong> The quality, accuracy, and trustworthiness of the data. This is often the biggest challenge, dealing with noise, bias, anomalies, and data lineage issues.</li>
+                    </ul>
+
+                    <h4>Types of Analytics and the DIKUW Pyramid</h4>
+                    <p>The value derived from data increases as we move up the analytics ladder, which corresponds to the DIKUW (Data, Information, Knowledge, Understanding, Wisdom) pyramid.</p>
+                    <ol class="list-decimal list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Descriptive Analytics:</strong> What happened? (e.g., dashboards, reports). Corresponds to Data/Information.</li>
+                        <li><strong>Diagnostic Analytics:</strong> Why did it happen? (e.g., root cause analysis). Corresponds to Information/Knowledge.</li>
+                        <li><strong>Predictive Analytics:</strong> What will happen? This is a core application of machine learning. Corresponds to Knowledge/Understanding.</li>
+                        <li><strong>Prescriptive Analytics:</strong> What should we do about it? (e.g., optimization, recommendation engines). Corresponds to Understanding/Wisdom.</li>
+                    </ol>
+                    <p>The sweet spot for AI projects is moving the organization from Descriptive/Diagnostic to Predictive and Prescriptive analytics, solidly into the "Knowledge" and "Understanding" levels of the DIKUW pyramid.</p>
+
+                    <h2 id="task2-d4">Task 2: Implementing Data Governance and Management</h2>
+                    <p><span class="key-term">Data Management</span> is the practice of collecting, organizing, protecting, and storing an organization's data so it can be analyzed for business decisions. <span class="key-term">Data Governance</span> is a subset of Data Management that sets the policies and procedures for ensuring data is handled correctly.</p>
+
+                    <h4>Key Roles and Concepts</h4>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><span class="key-term">Data Governance</span>: The processes, procedures, standards, and tools an organization implements to ensure data is properly stored, managed, secured, and controlled over its lifecycle.</li>
+                        <li><span class="key-term">Data Stewardship</span>: The implementation and enforcement of data governance policies. A <span class="key-term">Data Steward</span> is a person responsible for ensuring data is accessible, trustworthy, and secure.</li>
+                        <li><span class="key-term">Data Custodian</span>: A role typically in IT responsible for the technical environment and database structure.</li>
+                        <li><span class="key-term">Data Lifecycle Management</span>: Managing data from its creation/collection through to its storage, usage, sharing, archiving, and eventual destruction.</li>
+                        <li><span class="key-term">Master Data Management (MDM)</span>: Creating a single, authoritative "master" record for critical data entities (like customers or products) to ensure consistency across the organization.</li>
+                        <li><span class="key-term">Data Lineage</span>: Documenting the origin of data and tracking its journey and transformations through various systems. This is critical for auditing, trust, and debugging.</li>
+                        <li><span class="key-term">Data Quality Management</span>: The process of improving and maintaining the quality of data based on metrics like accuracy, completeness, consistency, timeliness, and validity.</li>
+                    </ul>
+
+                    <h2 id="task3-d4">Task 3: Engineering Data Pipelines for AI</h2>
+                    <p>A <span class="key-term">Data Pipeline</span> is an automated set of processes that moves and transforms data from various sources to a destination (like a data lake or data warehouse) where it can be used for analysis or model training.</p>
+                    
+                    <h4>Training vs. Inference Pipelines</h4>
+                    <p>A critical concept in AI projects is the need for two distinct data pipelines:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Training Pipeline:</strong> Gathers and prepares large batches of historical data for model training. This pipeline is run to create or update a model.</li>
+                        <li><strong>Inference Pipeline:</strong> Prepares live, incoming data in real-time or in small batches so it's in the correct format for the deployed model to make predictions. This pipeline must perform the exact same transformations as the training pipeline to avoid errors.</li>
+                    </ul>
+                    <p>Automation, documentation, and version control are key to building robust and reliable data pipelines.</p>
+
+                    <h2 id="task4-d4">Task 4: Executing Data Preparation and Transformation</h2>
+                    <div class="pro-tip">
+                        <h4>"Garbage In, Garbage Out"</h4>
+                        <p>This is the most important principle in data for AI. No matter how sophisticated your algorithm is, it will produce poor results if trained on poor-quality data. Data preparation is not an optional step; it is the foundation of the entire project and often consumes 80% of the project's time and effort.</p>
+                    </div>
+                    
+                    <h3>Key Data Preparation Tasks</h3>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Data Cleaning (Cleansing):</strong> Handling missing values, removing duplicates, correcting errors, removing irrelevant data or "noise," and anonymizing data.</li>
+                        <li><strong>Data Transformation:</strong> Converting data into a suitable format, such as normalizing numerical values to a standard scale or standardizing date formats.</li>
+                        <li><strong>Data Augmentation / Multiplication:</strong> Artificially increasing the size and diversity of the training set. For images, this can include rotating, scaling, or colorizing. This helps the model generalize better and is useful when data is scarce.</li>
+                        <li><strong>Data Labeling / Annotation:</strong> The process of adding metadata (labels) to raw data for supervised learning. This is a manual, time-consuming, and expensive process.
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>For images, this might involve drawing <span class="key-term">bounding boxes</span> around objects.</li>
+                                <li>For autonomous systems, this can involve <span class="key-term">sensor fusion</span>, where data from multiple sensors (e.g., LiDAR, camera) is combined and labeled.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Data Splitting:</strong> Dividing the prepared dataset into training, validation, and test sets to properly train and evaluate the model without data leakage.</li>
+                        <li><strong>Balancing Datasets:</strong> If one class is heavily over-represented in your data (e.g., 99% non-fraudulent transactions, 1% fraudulent), the model may become biased. Techniques like over-sampling the minority class or under-sampling the majority class can be used to create a more balanced dataset for training.</li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain4">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain4" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain4">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Domain 5 Content -->
+            <div id="domain5" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain V: Managing AI</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain5">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d5">Task 1: Evaluating Model Performance and Accuracy</h2>
+                    <p>This task covers the activities of CPMAI Phase V: Model Evaluation. This is the Quality Assurance (QA) phase for AI, ensuring the model is reliable, accurate, and aligned with business goals before deployment.</p>
+
+                    <h3>Model Validation and Testing</h3>
+                    <p>The goal of validation is to assess the model's <span class="key-term">generalization performance</span>—how well it performs on new, unseen data.</p>
+                    
+                    <h4>Training, Validation, and Test Sets</h4>
+                    <p>To properly evaluate a model, the prepared data is split into three distinct sets:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Training Set:</strong> The largest portion of the data, used to train the model's parameters (e.g., the weights and biases in a neural network).</li>
+                        <li><strong>Validation Set:</strong> A portion of the data used during the training phase to tune the model's <span class="key-term">hyperparameters</span> (e.g., learning rate, number of layers) and to check for overfitting.</li>
+                        <li><strong>Test Set (Holdout Set):</strong> A completely unseen dataset that is used only once at the very end to get an unbiased evaluation of the final, tuned model's performance.</li>
+                    </ul>
+
+                    <h4>Addressing <span class="compare-term" data-terms="Overfitting,Underfitting">Overfitting and Underfitting</span>: The Bias-Variance Tradeoff</h4>
+                    <p>A fundamental challenge in machine learning is finding the right balance between being too simple and too complex.</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><span class="key-term">Underfitting (High Bias)</span>: The model is too simple to capture the underlying patterns in the data. It performs poorly on both the training data and new data. The model makes overly simplistic assumptions.</li>
+                        <li><span class="key-term">Overfitting (High Variance)</span>: The model learns the training data too well, including its noise and random fluctuations. It performs exceptionally well on the training data but fails to generalize to new, unseen data.</li>
+                        <li><strong>The Goal:</strong> The goal of model tuning is to find the "sweet spot" with low bias and low variance, where the model generalizes well to new data.</li>
+                    </ul>
+                    
+                    <h4>Key Performance Metrics (for Classification)</h4>
+                    <p>The <span class="key-term">Confusion Matrix</span> is the foundation for most classification metrics. It provides a detailed breakdown of a model's performance by comparing its predictions to the actual ground truth.</p>
+                    <img src="https://i.imgur.com/gK2fC4B.png" alt="Confusion Matrix" class="mx-auto my-4 rounded-lg shadow-md" style="max-width: 450px;">
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Accuracy</span>: (TP + TN) / Total. The percentage of total predictions that were correct. <strong>Warning:</strong> This can be very misleading for imbalanced datasets.</li>
+                        <li><span class="key-term">Precision</span>: TP / (TP + FP). Of all the times the model predicted positive, how often was it correct? High precision minimizes False Positives.</li>
+                        <li><span class="key-term">Recall (Sensitivity)</span>: TP / (TP + FN). Of all the actual positive cases, how many did the model correctly identify? High recall minimizes False Negatives.</li>
+                        <li><span class="key-term">F1-Score</span>: The harmonic mean of Precision and Recall (2 * (Precision * Recall) / (Precision + Recall)). It provides a single score that balances the tradeoff between precision and recall.</li>
+                        <li><span class="key-term">Receiver Operating Characteristic (ROC) Curve</span>: A graph that plots the True Positive Rate (Recall) against the False Positive Rate at various threshold settings. The Area Under the Curve (AUC) provides a single measure of a classifier's performance across all thresholds.</li>
+                    </ul>
+                    <div class="pro-tip">
+                        <h4><span class="compare-term" data-terms="Precision,Recall">Precision vs. Recall</span> Trade-off</h4>
+                        <p>The choice between prioritizing Precision or Recall is a business decision:</p>
+                        <ul>
+                            <li><strong>Prioritize Precision when False Positives are costly.</strong> Example: A spam filter incorrectly marking an important email as spam (a false positive) is very bad.</li>
+                            <li><strong>Prioritize Recall when False Negatives are costly.</strong> Example: A medical test failing to detect a disease (a false negative) is very bad.</li>
+                        </ul>
+                    </div>
+
+                    <h4>Aligning with Business and Technology KPIs</h4>
+                    <p>A model is only successful if it meets both technical and business goals.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Business KPIs:</strong> Does the model's performance translate to the ROI defined in Phase I? (e.g., Does a high-recall fraud model actually reduce financial losses by the projected amount?).</li>
+                        <li><strong>Technology KPIs:</strong> Does the model meet operational requirements? This includes model size, memory usage, training time, and <span class="key-term">inference</span> speed (how quickly it makes a prediction).</li>
+                    </ul>
+
+                    <h2 id="task2-d5">Task 2: Deploying Models for Production Environments</h2>
+                    <p>This task covers the activities of CPMAI Phase VI: Model Operationalization. This is where the validated model is put into real-world use.</p>
+
+                    <h3><span class="compare-term" data-terms="Training,Inference">Training vs. Inference</span></h3>
+                    <p>It's crucial to distinguish between the two phases of a model's life:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Training:</strong> The computationally intensive process of learning the model from data. Often requires powerful hardware like GPUs.</li>
+                        <li><strong>Inference:</strong> The process of using the trained model to make predictions on new data. This is typically much faster and less resource-intensive.</li>
+                    </ul>
+
+                    <h3>Deployment Environments</h3>
+                    <p>A model can be operationalized in several locations, depending on the use case:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">On-Premise</span>: Deploying the model on the company's own internal servers. This is often chosen for security, data privacy, compliance, or low-latency requirements.</li>
+                        <li><span class="key-term">Cloud</span>: Using a cloud provider (AWS, Azure, GCP) for scalable deployment. This is the most common approach and leverages <span class="key-term">Machine Learning-as-a-Service (MLaaS)</span> platforms.</li>
+                        <li><span class="key-term">Edge Device</span>: Deploying a smaller, optimized model directly onto a device like a mobile phone, a camera, or an IoT sensor. This allows for real-time inference with no network latency and can work offline.</li>
+                    </ul>
+
+                    <h3>Model Operationalization Approaches</h3>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Batch Prediction</span>: The model runs on a schedule (e.g., once a day) to process a large batch of data. Best for when real-time results are not needed.</li>
+                        <li><span class="key-term">Microservice (On-Demand)</span>: The model is wrapped in an API and can be called by other applications to get a prediction on demand. This is a very flexible and scalable approach.</li>
+                        <li><span class="key-term">Real-Time Prediction / Stream Learning</span>: The model processes incoming data as a continuous stream, making predictions instantly. This is required for applications like real-time fraud detection.</li>
+                    </ul>
+
+                    <h3>Model Lifecycle Management and MLOps <button class="ai-feature-btn scenario-btn">Scenario</button></h3>
+                    <p><span class="key-term">Machine Learning Operations (MLOps)</span> is a set of practices that combines Machine Learning, DevOps, and Data Engineering to manage the entire ML lifecycle. It is essential for maintaining the performance and reliability of models in production.</p>
+                    <p>Key MLOps practices include:</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Model Versioning:</strong> Treating models as artifacts that are version-controlled, just like software code. This allows for reproducibility and rollbacks.</li>
+                        <li><strong>Continuous Monitoring:</strong> Actively tracking model performance in production to detect:
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><span class="key-term">Model Drift (Concept Drift)</span>: The relationship between the model's inputs and outputs changes over time, reducing the model's accuracy.</li>
+                                <li><span class="key-term">Data Drift</span>: The statistical properties of the input data change over time, making it different from the data the model was trained on.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Automated Retraining:</strong> Having pipelines in place to automatically trigger and execute model <span class="key-term">retraining</span> on new data when performance degrades below a certain threshold.</li>
+                        <li><strong>Model Governance:</strong> Providing controls, processes, and audit trails for how models are built, approved, deployed, and used.</li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain5">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain5" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain5">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Domain 6 Content -->
+            <div id="domain6" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Domain VI: Trustworthy AI</h1>
+                <button class="summarize-btn bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors mb-4" data-domain="domain6">✨ Summarize Key Concepts</button>
+                <div class="summary-container bg-indigo-50 p-4 rounded-lg border border-indigo-200 hidden"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="task1-d6">Task 1: Establishing Ethical, Responsible, and Trustworthy AI Foundations</h2>
+                    <p>Trustworthy AI is not a separate phase but a set of principles embedded throughout the entire CPMAI lifecycle. For AI to have a lasting positive impact, it must be done responsibly.</p>
+
+                    <h3>The Layers of Trustworthy AI</h3>
+                    <p>Trustworthy AI can be understood as a spectrum of concepts, from societal principles to technical methods:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Ethical AI (Societal):</strong> The foundational layer. It's about adhering to fundamental human values and principles like "do no harm," fairness, and ensuring human control. It addresses what you <em>should</em> or <em>should not</em> do.</li>
+                        <li><strong>Responsible AI (Systemic):</strong> The practical application of ethics. It's about accountability, safety, security, and ensuring there is a human chain of accountability for AI system outcomes.</li>
+                        <li><strong>Transparent AI (Systemic):</strong> Providing visibility into how an AI system is built, what data it uses, and how it operates.</li>
+                        <li><strong>Governed AI (Practices & Processes):</strong> The controls, processes, and organizational structures for oversight, auditing, and managing AI systems.</li>
+                        <li><strong>Interpretable & Explainable AI (Technical):</strong> The technical methods used to understand and explain the behavior of AI models, especially "black box" ones.</li>
+                    </ul>
+
+                    <h3>Addressing Real Concerns vs. Fears</h3>
+                    <p>It's important to distinguish between fears and real concerns:</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Fears (Emotional):</strong> Often based on science fiction, such as AGI taking over the world or robots taking all jobs.</li>
+                        <li><strong>Real Concerns (Fact-Based):</strong> These are the issues Trustworthy AI aims to solve, including:
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li>Lack of transparency in deep learning models.</li>
+                                <li>Bad actors using AI for malicious purposes.</li>
+                                <li>Vulnerability to tampering and security threats.</li>
+                                <li><span class="key-term">Algorithmic Discrimination / Bias</span>: A major ethical risk where a model trained on biased data learns and perpetuates those biases.</li>
+                                <li>Concerns over data privacy and usage.</li>
+                            </ul>
+                        </li>
+                        <li><strong>The "Uncanny Valley":</strong> The unsettling feeling people get from AI that is almost, but not quite, human-like. This can apply to both humanoid robots and hyper-personalized systems that seem "too creepy."</li>
+                    </ul>
+
+                    <h2 id="task2-d6">Task 2: Implementing AI Privacy and Security</h2>
+                    <h3>AI Privacy</h3>
+                    <p>The core of AI privacy is data privacy. This is a legal and ethical requirement.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Personally Identifiable Information (PII)</span>: Any data that can be used to identify a specific individual (name, social security number, address, etc.). This data must be protected.</li>
+                        <li><span class="key-term">General Data Protection Regulation (GDPR)</span>: A landmark EU law that gives individuals significant control over their personal data, including the "right to be forgotten." It has become a de facto global standard.</li>
+                        <li><span class="key-term">Data Anonymization</span>: The process of removing or encrypting PII from datasets so that the data can be used for training without compromising individual privacy.</li>
+                    </ul>
+
+                    <h3>AI Security</h3>
+                    <p>AI systems introduce new security vulnerabilities that must be managed.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Malicious AI</span>: The use of AI by bad actors for criminal purposes, such as creating sophisticated phishing attacks or autonomous malware.</li>
+                        <li><span class="key-term">Adversarial Attacks</span>: A technique where a malicious actor makes tiny, imperceptible changes to a model's input (e.g., an image) to trick it into making a wrong prediction.</li>
+                        <li><span class="key-term">DeepFake</span>: The use of generative AI to create highly realistic but fake images or videos, which can be used for disinformation or fraud.</li>
+                        <li><strong>Prompt Injection:</strong> An attack vector for LLMs where a malicious prompt tricks the model into ignoring its original instructions and performing an unintended action (e.g., revealing confidential data).</li>
+                    </ul>
+
+                    <h2 id="task3-d6">Task 3: Ensuring AI Transparency and Explainability</h2>
+                    <h3>Transparency</h3>
+                    <p><span class="key-term">AI System Transparency</span> is about providing visibility into how an AI system is built and operates. This is different from explainability.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><strong>Data Transparency:</strong> Being open about what data was used for training, how it was selected, and what its limitations are.</li>
+                        <li><strong>Disclosure:</strong> Clearly informing users when they are interacting with an AI system versus a human.</li>
+                        <li><strong>Consent:</strong> Giving users the choice to opt-in or opt-out of AI-driven processes, especially for critical decisions.</li>
+                    </ul>
+                    
+                    <h3><span class="compare-term" data-terms="Explainability,Interpretability">Explainability & Interpretability</span></h3>
+                    <p>This addresses the <span class="key-term">"Black Box"</span> problem, where complex models like deep neural networks make decisions that are difficult for humans to understand.</p>
+                    <ul class="list-disc list-inside space-y-2 mt-4 mb-6">
+                        <li><span class="key-term">Explainable AI (XAI)</span>: The ability of a model to provide a clear, human-understandable reason for a specific prediction (e.g., "The loan was denied because of a high debt-to-income ratio").</li>
+                        <li><span class="key-term">Interpretable AI</span>: The degree to which a human can understand the cause-and-effect of a model's predictions, even if a step-by-step explanation isn't possible.</li>
+                        <li><strong><span class="compare-term" data-terms="White Box Models,Black Box Models">White Box vs. Black Box Models</span>:</strong> Simpler models like Decision Trees and Linear Regression are inherently interpretable ("white box"). Complex models like Deep Learning networks are not ("black box"). There is often a trade-off between performance and explainability, and the project requirements will dictate which is more important.</li>
+                    </ul>
+
+                    <h2 id="task4-d6">Task 4: Navigating AI Regulations and Frameworks</h2>
+                    <p>The legal and regulatory landscape for AI is rapidly evolving. Project managers must stay aware of and comply with relevant laws.</p>
+                    <ul class="list-disc list-inside space-y-4 mt-4 mb-6">
+                        <li><strong>Data Privacy Laws:</strong> GDPR (EU), CCPA (California), and other regional laws are already in effect and carry significant penalties for non-compliance.</li>
+                        <li><strong>Algorithmic Decision Regulations:</strong> Laws are emerging that require transparency and fairness assessments for AI systems used in hiring, lending, and other critical areas (e.g., NYC's law on automated employment decision tools).</li>
+                        <li><strong>Facial Recognition Laws:</strong> Many jurisdictions are placing restrictions on the use of facial recognition technology, especially by law enforcement, due to privacy and bias concerns.</li>
+                        <li><strong>The Comprehensive Trustworthy AI Framework:</strong> This is an organizational commitment to embedding ethical and responsible principles into every phase of the CPMAI lifecycle. Key components include:
+                            <ul class="list-disc list-inside ml-6 mt-2">
+                                <li><strong>Creating an AI Audit Trail:</strong> Documenting data provenance, model versions, and key decisions for accountability.</li>
+                                <li><strong>Establishing Contestability:</strong> Creating processes for users to challenge or appeal an AI-driven decision.</li>
+                                <li><strong>Continuous Monitoring:</strong> Ongoing monitoring of deployed systems for performance, bias, and compliance.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="quiz-container mt-8 p-6 bg-gray-50 rounded-lg border">
+                    <h3 class="text-xl font-bold mb-4">Test Your Knowledge</h3>
+                    <div class="quiz-controls flex items-center space-x-4 mb-4">
+                        <label for="num-questions-domain6">Number of Questions:</label>
+                        <input type="number" id="num-questions-domain6" class="border rounded p-1 w-20" value="3" min="1" max="10">
+                        <button class="generate-questions-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" data-domain="domain6">✨ Generate Quiz</button>
+                    </div>
+                    <div class="questions-container"></div>
+                    <div class="quiz-results-container mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Simulator Content -->
+            <div id="simulator" class="content-section">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">🚀 CPMAI Project Simulator</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4">This tool helps you apply the CPMAI framework to a real-world problem. Enter a business problem below, and the AI will act as your project consultant, guiding you through each of the six CPMAI phases.</p>
+                    
+                    <div id="simulator-input-area">
+                        <label for="problem-statement" class="block font-semibold mb-2">1. Define Your Business Problem:</label>
+                        <textarea id="problem-statement" class="w-full border rounded-lg p-2 h-24" placeholder="Example: A retail company wants to reduce customer churn and increase customer loyalty."></textarea>
+                        <button id="analyze-problem-btn" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Analyze Problem & Start Simulation</button>
+                    </div>
+
+                    <div id="simulator-output-area" class="mt-6 hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">CPMAI Project Plan</h2>
+                        <div id="simulator-results" class="space-y-6"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- AI Tutor Chatbot -->
+    <div id="chat-toggle-button" title="Ask AI Tutor">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+    <div id="chat-container">
+        <div class="flex items-center justify-between p-4 bg-blue-600 text-white rounded-t-lg">
+            <h3 class="text-lg font-semibold">✨ CPMAI AI Tutor</h3>
+            <button id="close-chat-btn" class="text-white text-2xl font-bold">&times;</button>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col">
+             <div class="chat-message ai-message">Ask me anything about the current CPMAI domain!</div>
+        </div>
+        <div class="p-4 border-t">
+            <div class="flex">
+                <input type="text" id="chat-input" class="flex-1 border rounded-l-lg p-2" placeholder="Type your question...">
+                <button id="chat-send-btn" class="bg-blue-600 text-white px-4 rounded-r-lg">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Key Term Modal -->
+    <div id="modal-backdrop">
+        <div id="modal">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="modal-content"></div>
+            <button id="modal-close-btn" class="mt-6 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Local Storage Keys ---
+            const INCORRECT_QUESTIONS_KEY = 'cpmai_incorrect_questions';
+
+            // --- Local Storage Helpers ---
+            function getIncorrectQuestions() {
+                try {
+                    const stored = localStorage.getItem(INCORRECT_QUESTIONS_KEY);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) { console.error("Could not access local storage:", e); return []; }
+            }
+
+            function saveIncorrectQuestion(question, domainId) {
+                try {
+                    let questions = getIncorrectQuestions();
+                    if (!questions.some(q => q.question === question.question)) {
+                        questions.push({ ...question, domainId });
+                        localStorage.setItem(INCORRECT_QUESTIONS_KEY, JSON.stringify(questions));
+                        updateWeaknessTracker();
+                    }
+                } catch (e) { console.error("Could not save to local storage:", e); }
+            }
+            
+            function clearIncorrectQuestions() {
+                 try {
+                    localStorage.removeItem(INCORRECT_QUESTIONS_KEY);
+                    updateWeaknessTracker();
+                } catch (e) { console.error("Could not clear local storage:", e); }
+            }
+
+            // --- Weakness Tracker UI ---
+            const weaknessTracker = document.getElementById('weakness-tracker');
+            const weaknessList = document.getElementById('weakness-list');
+            const clearWeaknessesBtn = document.getElementById('clear-weaknesses-btn');
+            
+            clearWeaknessesBtn.addEventListener('click', clearIncorrectQuestions);
+
+            function updateWeaknessTracker() {
+                const incorrectQuestions = getIncorrectQuestions();
+                if (incorrectQuestions.length === 0) {
+                    weaknessTracker.classList.add('hidden');
+                    return;
+                }
+                const groupedByDomain = incorrectQuestions.reduce((acc, q) => {
+                    acc[q.domainId] = acc[q.domainId] || [];
+                    acc[q.domainId].push(q);
+                    return acc;
+                }, {});
+                weaknessList.innerHTML = '';
+                for (const domainId in groupedByDomain) {
+                    const domainName = document.querySelector(`a[href="#${domainId}"]`).textContent;
+                    const count = groupedByDomain[domainId].length;
+                    const domainEl = document.createElement('div');
+                    domainEl.innerHTML = `<button class="weakness-domain-btn text-sm text-left text-yellow-800 hover:underline" data-domain-id="${domainId}">${domainName}: <span class="font-normal">${count} question(s)</span></button>`;
+                    weaknessList.appendChild(domainEl);
+                }
+                weaknessTracker.classList.remove('hidden');
+            }
+
+            // --- Navigation Logic ---
+            const links = document.querySelectorAll('#sidebar-nav a');
+            const sections = document.querySelectorAll('.content-section');
+            let activeDomainId = 'introduction';
+
+            function showSection(hash) {
+                const targetHash = hash || '#introduction';
+                activeDomainId = targetHash.substring(1);
+                sections.forEach(section => section.classList.toggle('active', '#' + section.id === targetHash));
+                links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === targetHash));
+            }
+
+            // --- Initial Load ---
+            showSection(window.location.hash);
+            updateWeaknessTracker();
+
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetHash = this.getAttribute('href');
+                    history.pushState(null, null, targetHash);
+                    showSection(targetHash);
+                    window.scrollTo(0, 0);
+                });
+            });
+
+            window.addEventListener('popstate', () => showSection(window.location.hash));
+
+            // --- Gemini API Call Logic ---
+            const apiKey = ""; // This will be handled by the environment
+
+            // --- AI Tutor Chatbot Logic ---
+            const chatContainer = document.getElementById('chat-container');
+            const chatToggleButton = document.getElementById('chat-toggle-button');
+            const closeChatBtn = document.getElementById('close-chat-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+
+            chatToggleButton.addEventListener('click', () => { chatContainer.style.display = 'flex'; });
+            closeChatBtn.addEventListener('click', () => { chatContainer.style.display = 'none'; });
+            chatSendBtn.addEventListener('click', sendChatMessage);
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
+
+            async function sendChatMessage() {
+                const userQuery = chatInput.value.trim();
+                if (!userQuery) return;
+                appendMessage(userQuery, 'user');
+                chatInput.value = '';
+                appendMessage('', 'ai', true);
+                try {
+                    const context = document.getElementById(activeDomainId)?.innerText || document.body.innerText;
+                    const prompt = `Based on the following CPMAI study material, answer the user's question. Be concise and helpful, acting as a study tutor.\n\n--- STUDY MATERIAL CONTEXT ---\n${context.substring(0, 8000)}\n-----------------------------\n\nUSER QUESTION: "${userQuery}"\n\nANSWER:`;
+                    const result = await callGemini(prompt);
+                    updateLastMessage(result);
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    updateLastMessage("Sorry, I encountered an error. Please try again.");
+                }
+            }
+            
+            function appendMessage(text, sender, isLoading = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'ai-message');
+                if (isLoading) {
+                    const loader = document.createElement('div');
+                    loader.classList.add('loader');
+                    messageDiv.appendChild(loader);
+                } else {
+                    messageDiv.textContent = text;
+                }
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function updateLastMessage(text) {
+                const lastMessage = chatMessages.lastElementChild;
+                if (lastMessage && lastMessage.classList.contains('ai-message')) {
+                    lastMessage.innerHTML = '';
+                    lastMessage.textContent = text;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+
+            // --- Practice Question Generator Logic ---
+            document.getElementById('main-content').addEventListener('click', (e) => {
+                 if (e.target.classList.contains('generate-questions-btn')) {
+                    generateQuiz(e.target);
+                } else if (e.target.id === 'retake-quiz-btn') {
+                     const resultsContainer = e.target.closest('.quiz-results-container');
+                    const questionsContainer = resultsContainer.previousElementSibling;
+                    const quizContainer = resultsContainer.closest('.quiz-container');
+                    const button = quizContainer.querySelector('.generate-questions-btn');
+                    if(button) generateQuiz(button);
+                }
+            });
+            
+            async function generateQuiz(button) {
+                const domainId = button.dataset.domain;
+                const quizContainer = button.closest('.quiz-container');
+                const questionsContainer = quizContainer.querySelector('.questions-container');
+                const resultsContainer = quizContainer.querySelector('.quiz-results-container');
+                const numQuestionsInput = quizContainer.querySelector('input[type="number"]');
+                const numQuestions = parseInt(numQuestionsInput.value, 10);
+
+                if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > 10) {
+                    alert("Please enter a number between 1 and 10.");
+                    return;
+                }
+
+                questionsContainer.innerHTML = '<div class="flex justify-center items-center p-4"><div class="loader"></div><p class="ml-2">Generating quiz...</p></div>';
+                resultsContainer.innerHTML = '';
+
+                try {
+                    const domainContent = document.getElementById(domainId).innerText;
+                    const incorrectQuestions = getIncorrectQuestions().filter(q => q.domainId === domainId);
+                    let adaptivePrompt = '';
+                    if (incorrectQuestions.length > 0) {
+                        const questionsToReask = incorrectQuestions.slice(0, 2).map(q => q.question).join('; ');
+                        adaptivePrompt = `Also, please re-ask one or two of these questions the user previously got wrong (you can rephrase them slightly): ${questionsToReask}`;
+                    }
+                    
+                    const prompt = `Based on the following text from the CPMAI study guide for the domain "${domainId}", generate exactly ${numQuestions} unique multiple-choice practice questions. The questions should be in the style of a certification exam. ${adaptivePrompt}\n\n--- TEXT ---\n${domainContent.substring(0, 7000)}\n------------\n\nProvide the output in a valid JSON array format. Each option in the options array must be a string. The answer must be one of the provided options.`;
+
+                    const schema = {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "question": { "type": "STRING" },
+                                "options": { "type": "ARRAY", "items": { "type": "STRING" }},
+                                "answer": { "type": "STRING" },
+                                "rationale": { "type": "STRING" }
+                            },
+                            required: ["question", "options", "answer", "rationale"]
+                        }
+                    };
+                    
+                    const result = await callGemini(prompt, schema);
+                    const quizData = JSON.parse(result);
+                    displayQuiz(quizData, questionsContainer, resultsContainer, button);
+
+                } catch (error) {
+                    console.error("Error generating questions:", error);
+                    questionsContainer.innerHTML = '<p class="text-red-500">Failed to generate questions. Please try again.</p>';
+                }
+            }
+
+            function displayQuiz(questions, questionsContainer, resultsContainer, originalButton) {
+                questionsContainer.innerHTML = '';
+                resultsContainer.innerHTML = '';
+                const form = document.createElement('form');
+                
+                questions.forEach((q, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'bg-white p-4 rounded-lg mb-4 border';
+                    let optionsHtml = '';
+                    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+                    shuffledOptions.forEach((option) => {
+                        optionsHtml += `<label class="quiz-option-label"><input type="radio" name="question-${index}" value="${option}" class="mr-2"><span>${option}</span></label>`;
+                    });
+                    questionEl.innerHTML = `<p class="font-semibold">${index + 1}. ${q.question}</p><div class="mt-2">${optionsHtml}</div><div class="rationale-container hidden mt-2 p-3 bg-gray-100 border-l-4 border-gray-400 rounded-r-lg"></div>`;
+                    form.appendChild(questionEl);
+                });
+
+                const submitButton = document.createElement('button');
+                submitButton.type = 'submit';
+                submitButton.className = 'bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors';
+                submitButton.textContent = 'Grade My Answers';
+                form.appendChild(submitButton);
+
+                form.addEventListener('submit', (e) => gradeQuiz(e, questions, resultsContainer, originalButton));
+                questionsContainer.appendChild(form);
+            }
+
+            function gradeQuiz(event, questions, resultsContainer, originalButton) {
+                event.preventDefault();
+                const form = event.target;
+                let score = 0;
+                const domainId = originalButton.dataset.domain;
+
+                questions.forEach((q, index) => {
+                    const selectedOptionInput = form.querySelector(`input[name="question-${index}"]:checked`);
+                    const allOptionInputs = form.querySelectorAll(`input[name="question-${index}"]`);
+                    const rationaleContainer = allOptionInputs[0].closest('.bg-white').querySelector('.rationale-container');
+                    const correctAnswer = q.answer.trim();
+
+                    allOptionInputs.forEach(opt => {
+                        const label = opt.parentElement;
+                        const optionValue = opt.value.trim();
+                        if (optionValue === correctAnswer) {
+                            label.classList.add('correct');
+                        }
+                        if (selectedOptionInput && optionValue === selectedOptionInput.value.trim() && optionValue !== correctAnswer) {
+                            label.classList.add('incorrect');
+                        }
+                        opt.disabled = true;
+                    });
+
+                    if (selectedOptionInput && selectedOptionInput.value.trim() === correctAnswer) {
+                        score++;
+                    } else {
+                        saveIncorrectQuestion(q, domainId);
+                    }
+                    
+                    rationaleContainer.innerHTML = `<p><strong>Correct Answer:</strong> ${q.answer}</p><p class="mt-1"><strong>Rationale:</strong> ${q.rationale}</p>`;
+                    rationaleContainer.classList.remove('hidden');
+                });
+
+                resultsContainer.innerHTML = `
+                    <div class="p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-lg flex items-center justify-between">
+                        <div><h4 class="text-lg font-bold">Quiz Complete!</h4><p class="text-xl">Your score: <span class="font-bold">${score} / ${questions.length}</span></p></div>
+                        <button id="retake-quiz-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Try Another Quiz</button>
+                    </div>`;
+                
+                form.querySelector('button[type="submit"]').style.display = 'none';
+            }
+
+            // --- Modal and AI Feature Logic ---
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            
+            function showModal(title, contentPromise) {
+                modalTitle.textContent = title;
+                modalContent.innerHTML = '<div class="flex justify-center items-center"><div class="loader"></div></div>';
+                modalBackdrop.style.display = 'flex';
+                contentPromise.then(content => {
+                    modalContent.innerHTML = content.replace(/\n/g, '<br>');
+                }).catch(error => {
+                    modalContent.textContent = 'Could not load content.';
+                    console.error("Modal content error:", error);
+                });
+            }
+
+            document.querySelectorAll('.summarize-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const domainId = e.target.dataset.domain;
+                    const container = e.target.nextElementSibling;
+                    container.classList.remove('hidden');
+                    container.innerHTML = '<div class="flex items-center"><div class="loader"></div><p class="ml-2">Generating summary...</p></div>';
+                    try {
+                        const content = document.getElementById(domainId).innerText;
+                        const prompt = `Summarize the key concepts from the following text from the CPMAI study guide. Use bullet points and bold text to highlight important terms.\n\n---TEXT---\n${content.substring(0, 8000)}`;
+                        const summary = await callGemini(prompt);
+                        container.innerHTML = summary.replace(/\n/g, '<br>');
+                    } catch (error) {
+                        container.innerHTML = '<p class="text-red-500">Could not generate summary.</p>';
+                    }
+                });
+            });
+
+            document.getElementById('main-content').addEventListener('click', async (e) => {
+                const target = e.target;
+                if (target.classList.contains('key-term')) {
+                    const term = target.textContent;
+                    const context = target.closest('p, li, div').textContent;
+                    const prompt = `Explain the term "${term}" in the context of CPMAI and AI project management. Use the following surrounding text for context:\n\n---CONTEXT---\n${context.substring(0, 2000)}`;
+                    showModal(term, callGemini(prompt));
+                } else if (target.classList.contains('eli5-btn')) {
+                    const topicEl = target.parentElement;
+                    const topic = topicEl.textContent.replace(/ELI5|Analogy|Scenario/g, '').trim();
+                    const context = topicEl.nextElementSibling.textContent;
+                    const prompt = `Explain the following concept like I'm 5 years old. Be simple and use a relatable example.\n\n---CONCEPT---\n${topic}\n\n---CONTEXT---\n${context.substring(0, 1500)}`;
+                    showModal(`ELI5: ${topic}`, callGemini(prompt));
+                } else if (target.classList.contains('analogy-btn')) {
+                    const topicEl = target.parentElement;
+                    const topic = topicEl.textContent.replace(/ELI5|Analogy|Scenario/g, '').trim();
+                    const context = topicEl.nextElementSibling.textContent;
+                    const prompt = `Generate a simple, real-world analogy to explain the following concept.\n\n---CONCEPT---\n${topic}\n\n---CONTEXT---\n${context.substring(0, 1500)}`;
+                    showModal(`Analogy for: ${topic}`, callGemini(prompt));
+                } else if (target.classList.contains('compare-term')) {
+                    const terms = target.dataset.terms.split(',');
+                    const context = target.closest('p, li, div').innerText;
+                    const prompt = `Create a simple table or bulleted list that compares and contrasts "${terms[0]}" and "${terms[1]}". Use the following text for context:\n\n---CONTEXT---\n${context.substring(0, 2000)}`;
+                    showModal(`Comparing ${terms[0]} vs. ${terms[1]}`, callGemini(prompt));
+                } else if(target.classList.contains('scenario-btn')) {
+                    const topicEl = target.parentElement;
+                    const topic = topicEl.textContent.replace(/Scenario/g, '').trim();
+                    const prompt = `You are a senior AI project manager creating a study guide. Create a short, realistic project scenario where a team is struggling with the concept of "${topic}". Describe the problem the team is facing and then ask, 'As the CPMAI-certified project manager, what is the first step you should take to address this issue?'`;
+                    showModal(`Scenario for: ${topic}`, callGemini(prompt));
+                }
+            });
+
+            weaknessList.addEventListener('click', (e) => {
+                if(e.target.classList.contains('weakness-domain-btn')) {
+                    const domainId = e.target.dataset.domainId;
+                    const incorrectQuestions = getIncorrectQuestions().filter(q => q.domainId === domainId);
+                    let contentHtml = incorrectQuestions.map((q, i) => `
+                        <div class="mb-4 border-b pb-2">
+                            <p class="font-semibold">${i + 1}. ${q.question}</p>
+                            <p class="text-green-600 font-medium mt-1">Correct Answer: ${q.answer}</p>
+                        </div>
+                    `).join('');
+                    showModal(`Incorrect Questions for ${e.target.textContent.split(':')[0]}`, Promise.resolve(contentHtml));
+                }
+            });
+
+            modalCloseBtn.addEventListener('click', () => { modalBackdrop.style.display = 'none'; });
+            modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
+            
+            // --- Project Simulator Logic ---
+            const analyzeProblemBtn = document.getElementById('analyze-problem-btn');
+            const problemStatementInput = document.getElementById('problem-statement');
+            const simulatorOutputArea = document.getElementById('simulator-output-area');
+            const simulatorResults = document.getElementById('simulator-results');
+            let projectHistory = [];
+
+            analyzeProblemBtn.addEventListener('click', async () => {
+                const problem = problemStatementInput.value.trim();
+                if(!problem) {
+                    alert("Please enter a business problem.");
+                    return;
+                }
+                
+                projectHistory = [{role: 'user', parts: [{ text: `Let's simulate a CPMAI project. The business problem is: "${problem}"` }] }];
+                simulatorOutputArea.classList.remove('hidden');
+                simulatorResults.innerHTML = '';
+                
+                const phases = [
+                    { name: "Business Understanding", artifact: "Project Charter" },
+                    { name: "Data Understanding", artifact: "Data Requirements Document" },
+                    { name: "Data Preparation", artifact: "Data Preparation Plan" },
+                    { name: "Model Development", artifact: "Model Development Approach" },
+                    { name: "Model Evaluation", artifact: "Model Evaluation Plan" },
+                    { name: "Model Operationalization", artifact: "MLOps Monitoring Plan" }
+                ];
+
+                for (let i = 0; i < phases.length; i++) {
+                    const phase = phases[i];
+                    const prompt = `For Phase ${i+1} (${phase.name}), based on the project history, what are the key considerations?`;
+                    await generatePhase(i + 1, phase.name, prompt, phase.artifact);
+                }
+            });
+
+            async function generatePhase(phaseNumber, phaseName, prompt, artifactName) {
+                const phaseContainer = document.createElement('div');
+                phaseContainer.innerHTML = `<h3 class="text-xl font-bold">Phase ${phaseNumber}: ${phaseName}</h3><div class="phase-content p-4 bg-gray-50 rounded-lg"><div class="flex items-center"><div class="loader"></div><p class="ml-2">Generating analysis...</p></div></div>`;
+                simulatorResults.appendChild(phaseContainer);
+                
+                try {
+                    const content = await callGeminiWithHistory(prompt);
+                    const contentDiv = phaseContainer.querySelector('.phase-content');
+                    contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'mt-4 flex items-center gap-4';
+                    
+                    const artifactButton = document.createElement('button');
+                    artifactButton.className = 'ai-feature-btn';
+                    artifactButton.textContent = `📝 Generate ${artifactName}`;
+                    artifactButton.onclick = async () => {
+                        const artifactPrompt = `Based on the entire project simulation so far, generate a draft of a "${artifactName}" for this project. Format it as a professional document with clear headings and bullet points.`;
+                        showModal(`Draft: ${artifactName}`, callGeminiWithHistory(artifactPrompt));
+                    };
+                    buttonContainer.appendChild(artifactButton);
+
+                    const scenarioButton = document.createElement('button');
+                    scenarioButton.className = 'ai-feature-btn';
+                    scenarioButton.innerHTML = `🌪️ Inject a Challenge`;
+                    scenarioButton.onclick = async () => {
+                        const challengePrompt = `Based on the project simulation history, create a realistic and challenging problem or scenario that a project manager might face during Phase ${phaseNumber} (${phaseName}). Present it as a short scenario. Then, prompt the user to provide a solution by asking: "As the CPMAI project manager, how would you address this challenge?"`;
+                        const challenge = await callGeminiWithHistory(challengePrompt);
+                        
+                        const challengeContainer = document.createElement('div');
+                        challengeContainer.className = 'mt-4 p-4 border-t border-gray-200';
+                        challengeContainer.innerHTML = `
+                            <p class="font-semibold text-red-600">🚨 Challenge Injected:</p>
+                            <p class="my-2">${challenge.replace(/\n/g, '<br>')}</p>
+                            <textarea class="w-full border rounded-lg p-2 h-24" placeholder="Describe your solution based on CPMAI principles..."></textarea>
+                            <button class="submit-solution-btn mt-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">Submit Solution</button>
+                            <div class="feedback-container mt-2"></div>
+                        `;
+                        contentDiv.appendChild(challengeContainer);
+                        
+                        challengeContainer.querySelector('.submit-solution-btn').onclick = async (e) => {
+                            const solution = e.target.previousElementSibling.value;
+                            const feedbackContainer = e.target.nextElementSibling;
+                            if (!solution) {
+                                alert("Please provide a solution.");
+                                return;
+                            }
+                            feedbackContainer.innerHTML = '<div class="flex items-center"><div class="loader"></div><p class="ml-2">Analyzing your solution...</p></div>';
+                            const feedbackPrompt = `The user was presented with this challenge: "${challenge}". Their proposed solution is: "${solution}". As an expert CPMAI mentor, evaluate their solution. Is it aligned with CPMAI principles? What did they do well? What could they improve? Provide constructive feedback.`;
+                            const feedback = await callGeminiWithHistory(feedbackPrompt);
+                            feedbackContainer.innerHTML = `<div class="p-3 bg-blue-50 border-l-4 border-blue-400"><p class="font-semibold">Mentor Feedback:</p>${feedback.replace(/\n/g, '<br>')}</div>`;
+                        };
+                    };
+                    buttonContainer.appendChild(scenarioButton);
+
+                    contentDiv.appendChild(buttonContainer);
+
+                } catch(error) {
+                    console.error(`Error in Phase ${phaseNumber}:`, error);
+                    phaseContainer.querySelector('.phase-content').innerHTML = `<p class="text-red-500">Could not generate analysis for this phase.</p>`;
+                }
+            }
+
+            async function callGeminiWithHistory(prompt) {
+                projectHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: projectHistory };
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                
+                const result = await response.json();
+                const content = result.candidates[0].content.parts[0].text;
+                projectHistory.push({ role: "model", parts: [{ text: content }] });
+                return content;
+            }
+
+            // --- Central Gemini API Function ---
+            async function callGemini(prompt, schema = null) {
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                if (schema) {
+                    payload.generationConfig = {
+                        responseMimeType: "application/json",
+                        responseSchema: schema
+                    };
+                }
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                const result = await response.json();
+                if (result.candidates && result.candidates[0].content.parts[0].text) {
+                   return result.candidates[0].content.parts[0].text;
+                }
+                throw new Error("No content in API response.");
+            }
+        });
+    </script>
+
+</body>
+</html>
