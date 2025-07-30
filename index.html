@@ -248,7 +248,8 @@
                 <h4 class="font-bold text-yellow-800">My Weakest Areas</h4>
                 <p class="text-sm text-yellow-700 mb-2">Review these questions you've answered incorrectly.</p>
                 <div id="weakness-list"></div>
-                <button id="clear-weaknesses-btn" class="text-sm text-red-600 hover:underline mt-2">Clear History</button>
+                <button id="quiz-weaknesses-btn" class="w-full mt-4 bg-yellow-400 text-yellow-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors">🧠 Quiz My Weaknesses</button>
+                <button id="clear-weaknesses-btn" class="text-sm text-red-600 hover:underline mt-2 w-full text-center">Clear History</button>
             </div>
         </aside>
 
@@ -1061,6 +1062,15 @@
                     }
                 } catch (e) { console.error("Could not save to local storage:", e); }
             }
+
+            function removeIncorrectQuestion(questionText) {
+                try {
+                    let questions = getIncorrectQuestions();
+                    const updatedQuestions = questions.filter(q => q.question !== questionText);
+                    localStorage.setItem(INCORRECT_QUESTIONS_KEY, JSON.stringify(updatedQuestions));
+                    updateWeaknessTracker();
+                } catch (e) { console.error("Could not save to local storage:", e); }
+            }
             
             function clearIncorrectQuestions() {
                  try {
@@ -1127,7 +1137,7 @@
             window.addEventListener('popstate', () => showSection(window.location.hash));
 
             // --- Gemini API Call Logic ---
-            const apiKey = "AIzaSyCHQ8lcPCF-IFviKRkOkQui2zqkgGK6qNw"; // This will be handled by the environment
+            const apiKey = ""; // This will be handled by the environment
 
             // --- AI Tutor Chatbot Logic ---
             const chatContainer = document.getElementById('chat-container');
@@ -1188,14 +1198,13 @@
                     generateQuiz(e.target);
                 } else if (e.target.id === 'retake-quiz-btn') {
                      const resultsContainer = e.target.closest('.quiz-results-container');
-                    const questionsContainer = resultsContainer.previousElementSibling;
                     const quizContainer = resultsContainer.closest('.quiz-container');
                     const button = quizContainer.querySelector('.generate-questions-btn');
                     if(button) generateQuiz(button);
                 }
             });
             
-            async function generateQuiz(button) {
+            async function generateQuiz(button, questionsToAsk = null) {
                 const domainId = button.dataset.domain;
                 const quizContainer = button.closest('.quiz-container');
                 const questionsContainer = quizContainer.querySelector('.questions-container');
@@ -1212,32 +1221,26 @@
                 resultsContainer.innerHTML = '';
 
                 try {
-                    const domainContent = document.getElementById(domainId).innerText;
-                    const incorrectQuestions = getIncorrectQuestions().filter(q => q.domainId === domainId);
-                    let adaptivePrompt = '';
-                    if (incorrectQuestions.length > 0) {
-                        const questionsToReask = incorrectQuestions.slice(0, 2).map(q => q.question).join('; ');
-                        adaptivePrompt = `Also, please re-ask one or two of these questions the user previously got wrong (you can rephrase them slightly): ${questionsToReask}`;
-                    }
-                    
-                    const prompt = `Based on the following text from the CPMAI study guide for the domain "${domainId}", generate exactly ${numQuestions} unique multiple-choice practice questions. The questions should be in the style of a certification exam. ${adaptivePrompt}\n\n--- TEXT ---\n${domainContent.substring(0, 7000)}\n------------\n\nProvide the output in a valid JSON array format. Each option in the options array must be a string. The answer must be one of the provided options.`;
-
-                    const schema = {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                "question": { "type": "STRING" },
-                                "options": { "type": "ARRAY", "items": { "type": "STRING" }},
-                                "answer": { "type": "STRING" },
-                                "rationale": { "type": "STRING" }
-                            },
-                            required: ["question", "options", "answer", "rationale"]
+                    let quizData;
+                    if (questionsToAsk) {
+                        const prompt = `You are a CPMAI certification exam coach. The user has struggled with the following questions. Create a new, targeted quiz of ${questionsToAsk.length} questions that covers the same topics and concepts to help them master these weak areas. Rephrase the questions slightly. \n\n --- FAILED QUESTIONS --- \n ${JSON.stringify(questionsToAsk)}`;
+                         const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                        const result = await callGemini(prompt, schema);
+                        quizData = JSON.parse(result);
+                    } else {
+                        const domainContent = document.getElementById(domainId).innerText;
+                        const incorrectQuestions = getIncorrectQuestions().filter(q => q.domainId === domainId);
+                        let adaptivePrompt = '';
+                        if (incorrectQuestions.length > 0) {
+                            const questionsToReask = incorrectQuestions.slice(0, 2).map(q => q.question).join('; ');
+                            adaptivePrompt = `Also, please re-ask one or two of these questions the user previously got wrong (you can rephrase them slightly): ${questionsToReask}`;
                         }
-                    };
-                    
-                    const result = await callGemini(prompt, schema);
-                    const quizData = JSON.parse(result);
+                        
+                        const prompt = `Based on the following text from the CPMAI study guide for the domain "${domainId}", generate exactly ${numQuestions} unique multiple-choice practice questions. The questions should be in the style of a certification exam. ${adaptivePrompt}\n\n--- TEXT ---\n${domainContent.substring(0, 7000)}\n------------\n\nProvide the output in a valid JSON array format. Each option in the options array must be a string. The answer must be one of the provided options.`;
+                        const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                        const result = await callGemini(prompt, schema);
+                        quizData = JSON.parse(result);
+                    }
                     displayQuiz(quizData, questionsContainer, resultsContainer, button);
 
                 } catch (error) {
@@ -1277,12 +1280,12 @@
                 event.preventDefault();
                 const form = event.target;
                 let score = 0;
-                const domainId = originalButton.dataset.domain;
+                const domainId = originalButton ? originalButton.dataset.domain : null;
 
                 questions.forEach((q, index) => {
                     const selectedOptionInput = form.querySelector(`input[name="question-${index}"]:checked`);
                     const allOptionInputs = form.querySelectorAll(`input[name="question-${index}"]`);
-                    const rationaleContainer = allOptionInputs[0].closest('.bg-white').querySelector('.rationale-container');
+                    const rationaleContainer = allOptionInputs[0].closest('.bg-white, .modal-quiz-question').querySelector('.rationale-container');
                     const correctAnswer = q.answer.trim();
 
                     allOptionInputs.forEach(opt => {
@@ -1299,19 +1302,24 @@
 
                     if (selectedOptionInput && selectedOptionInput.value.trim() === correctAnswer) {
                         score++;
-                    } else {
+                        removeIncorrectQuestion(q.question);
+                    } else if(domainId) {
                         saveIncorrectQuestion(q, domainId);
                     }
                     
                     rationaleContainer.innerHTML = `<p><strong>Correct Answer:</strong> ${q.answer}</p><p class="mt-1"><strong>Rationale:</strong> ${q.rationale}</p>`;
                     rationaleContainer.classList.remove('hidden');
                 });
-
-                resultsContainer.innerHTML = `
+                
+                let resultsHTML = `
                     <div class="p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-lg flex items-center justify-between">
                         <div><h4 class="text-lg font-bold">Quiz Complete!</h4><p class="text-xl">Your score: <span class="font-bold">${score} / ${questions.length}</span></p></div>
-                        <button id="retake-quiz-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Try Another Quiz</button>
-                    </div>`;
+                `;
+                if (originalButton) {
+                    resultsHTML += `<button id="retake-quiz-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Try Another Quiz</button>`;
+                }
+                resultsHTML += `</div>`;
+                resultsContainer.innerHTML = resultsHTML;
                 
                 form.querySelector('button[type="submit"]').style.display = 'none';
             }
@@ -1397,6 +1405,56 @@
                 }
             });
 
+            document.getElementById('quiz-weaknesses-btn').addEventListener('click', async () => {
+                const incorrectQuestions = getIncorrectQuestions();
+                if (incorrectQuestions.length === 0) {
+                    alert("You don't have any recorded weaknesses yet. Take some quizzes first!");
+                    return;
+                }
+                
+                modalTitle.textContent = "Quiz Your Weaknesses";
+                modalContent.innerHTML = '<div class="flex justify-center items-center"><div class="loader"></div><p class="ml-2">Generating your personalized quiz...</p></div>';
+                modalBackdrop.style.display = 'flex';
+
+                try {
+                    const prompt = `You are a CPMAI certification exam coach. The user has struggled with the following questions. Create a new, targeted quiz of ${Math.min(5, incorrectQuestions.length)} questions that covers the same topics and concepts to help them master these weak areas. Rephrase the questions slightly. \n\n --- FAILED QUESTIONS --- \n ${JSON.stringify(incorrectQuestions)}`;
+                    const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                    const result = await callGemini(prompt, schema);
+                    const quizData = JSON.parse(result);
+                    
+                    displayModalQuiz(quizData);
+                } catch (error) {
+                    modalContent.innerHTML = `<p class="text-red-500">Could not generate weakness quiz. Please try again.</p>`;
+                    console.error("Error generating weakness quiz:", error);
+                }
+            });
+
+            function displayModalQuiz(questions) {
+                modalContent.innerHTML = '';
+                const form = document.createElement('form');
+                
+                questions.forEach((q, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'modal-quiz-question bg-white p-4 rounded-lg mb-4 border';
+                    let optionsHtml = '';
+                    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+                    shuffledOptions.forEach((option) => {
+                        optionsHtml += `<label class="quiz-option-label"><input type="radio" name="question-${index}" value="${option}" class="mr-2"><span>${option}</span></label>`;
+                    });
+                    questionEl.innerHTML = `<p class="font-semibold">${index + 1}. ${q.question}</p><div class="mt-2">${optionsHtml}</div><div class="rationale-container hidden mt-2 p-3 bg-gray-100 border-l-4 border-gray-400 rounded-r-lg"></div>`;
+                    form.appendChild(questionEl);
+                });
+
+                const submitButton = document.createElement('button');
+                submitButton.type = 'submit';
+                submitButton.className = 'bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors';
+                submitButton.textContent = 'Grade My Answers';
+                form.appendChild(submitButton);
+
+                form.addEventListener('submit', (e) => gradeQuiz(e, questions, modalContent, null));
+                modalContent.appendChild(form);
+            }
+
             modalCloseBtn.addEventListener('click', () => { modalBackdrop.style.display = 'none'; });
             modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; });
             
@@ -1460,7 +1518,7 @@
                     scenarioButton.className = 'ai-feature-btn';
                     scenarioButton.innerHTML = `🌪️ Inject a Challenge`;
                     scenarioButton.onclick = async () => {
-                        const challengePrompt = `Based on the project simulation history, create a realistic and challenging problem or scenario that a project manager might face during Phase ${phaseNumber} (${phaseName}). Present it as a short scenario. Then, prompt the user to provide a solution by asking: "As the CPMAI project manager, how would you address this challenge?"`;
+                        const challengePrompt = `Based on the project simulation history, create a realistic and challenging problem or scenario that a project manager might face during Phase ${phaseNumber} (${phaseName}). Present it as a short scenario. Then, prompt the user to provide a solution by asking: "As the CPMAI-certified project manager, how would you address this challenge?"`;
                         const challenge = await callGeminiWithHistory(challengePrompt);
                         
                         const challengeContainer = document.createElement('div');
