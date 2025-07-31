@@ -1140,7 +1140,7 @@
             window.addEventListener('popstate', () => showSection(window.location.hash));
 
             // --- Gemini API Call Logic ---
-            const apiKey = "AIzaSyCHQ8lcPCF-IFviKRkOkQui2zqkgGK6qNw"; // This will be handled by the environment
+            const apiKey = ""; // This will be handled by the environment
 
             // --- AI Tutor Chatbot Logic ---
             const chatContainer = document.getElementById('chat-container');
@@ -1227,7 +1227,7 @@
                     let quizData;
                     if (questionsToAsk) {
                         const prompt = `You are a CPMAI certification exam coach. The user has struggled with the following questions. Create a new, targeted quiz of ${questionsToAsk.length} questions that covers the same topics and concepts to help them master these weak areas. Rephrase the questions slightly. For each new question, include the original question text it was based on in an 'original_question' field in the JSON object. \n\n --- FAILED QUESTIONS --- \n ${JSON.stringify(questionsToAsk)}`;
-                         const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" }, "original_question": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                         const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" }, "original_question": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale", "original_question"] } };
                         const result = await callGemini(prompt, schema);
                         quizData = JSON.parse(result);
                     } else {
@@ -1307,8 +1307,8 @@
                         score++;
                         const questionToRemove = q.original_question || q.question;
                         removeIncorrectQuestion(questionToRemove);
-                    } else if(domainId) {
-                        saveIncorrectQuestion(q, domainId);
+                    } else if(domainId || q.domainId) {
+                        saveIncorrectQuestion(q, domainId || q.domainId);
                     }
                     
                     rationaleContainer.innerHTML = `<p><strong>Correct Answer:</strong> ${q.answer}</p><p class="mt-1"><strong>Rationale:</strong> ${q.rationale}</p>`;
@@ -1422,7 +1422,7 @@
 
                 try {
                     const prompt = `You are a CPMAI certification exam coach. The user has struggled with the following questions. Create a new, targeted quiz of ${incorrectQuestions.length} questions that covers the same topics and concepts to help them master these weak areas. Rephrase the questions slightly. For each new question, include the original question text it was based on in an 'original_question' field in the JSON object. \n\n --- FAILED QUESTIONS --- \n ${JSON.stringify(incorrectQuestions)}`;
-                    const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" }, "original_question": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                    const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" }, "original_question": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale", "original_question"] } };
                     const result = await callGemini(prompt, schema);
                     const quizData = JSON.parse(result);
                     
@@ -1559,21 +1559,24 @@
                 }
             }
 
-            document.getElementById('general-exam-btn').addEventListener('click', async () => {
+            document.getElementById('general-exam-btn').addEventListener('click', () => {
                 modalTitle.textContent = "General Exam Simulator";
                 modalContent.innerHTML = `
                     <div class="flex flex-col items-center">
-                        <label for="general-exam-questions" class="mb-2">How many questions would you like? (10-50)</label>
-                        <input type="number" id="general-exam-questions" class="border rounded p-1 w-24 text-center" value="25" min="10" max="50">
+                        <label for="general-exam-questions" class="mb-2">How many questions would you like? (1-200)</label>
+                        <input type="number" id="general-exam-questions" class="border rounded p-1 w-24 text-center" value="25" min="1" max="200">
                         <button id="start-general-exam-btn" class="mt-4 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">Start Exam</button>
                     </div>
                 `;
                 modalBackdrop.style.display = 'flex';
+            });
 
-                document.getElementById('start-general-exam-btn').onclick = async () => {
-                    const numQuestions = parseInt(document.getElementById('general-exam-questions').value, 10);
-                    if (isNaN(numQuestions) || numQuestions < 10 || numQuestions > 50) {
-                        alert("Please enter a number between 10 and 50.");
+            modalBackdrop.addEventListener('click', async (e) => {
+                if (e.target.id === 'start-general-exam-btn') {
+                    const numQuestionsInput = document.getElementById('general-exam-questions');
+                    const numQuestions = parseInt(numQuestionsInput.value, 10);
+                    if (isNaN(numQuestions) || numQuestions < 1 || numQuestions > 200) {
+                        alert("Please enter a number between 1 and 200.");
                         return;
                     }
                     
@@ -1585,8 +1588,8 @@
                             fullContent += el.innerText + '\n\n';
                         });
 
-                        const prompt = `You are a CPMAI certification exam creator. Based on the entire study guide provided, generate a comprehensive practice exam of ${numQuestions} questions that randomly covers topics from all sections. Ensure the questions are unique and varied.\n\n---STUDY GUIDE TEXT---\n${fullContent.substring(0, 14000)}\n------------\n\nProvide the output in a valid JSON array format.`;
-                        const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale"] } };
+                        const prompt = `You are a CPMAI certification exam creator. Based on the entire study guide provided, generate a comprehensive practice exam of ${numQuestions} questions that randomly covers topics from all sections. For each question, include a "domainId" field (e.g., "domain1", "domain2") indicating its source domain. Ensure the questions are unique and varied.\n\n---STUDY GUIDE TEXT---\n${fullContent.substring(0, 14000)}\n------------\n\nProvide the output in a valid JSON array format.`;
+                        const schema = { type: "ARRAY", items: { type: "OBJECT", properties: { "question": { "type": "STRING" }, "options": { "type": "ARRAY", "items": { "type": "STRING" }}, "answer": { "type": "STRING" }, "rationale": { "type": "STRING" }, "domainId": { "type": "STRING" } }, required: ["question", "options", "answer", "rationale", "domainId"] } };
                         const result = await callGemini(prompt, schema);
                         const quizData = JSON.parse(result);
                         displayModalQuiz(quizData);
@@ -1594,7 +1597,7 @@
                          modalContent.innerHTML = `<p class="text-red-500">Could not generate the exam. Please try again.</p>`;
                          console.error("Error generating general exam:", error);
                     }
-                };
+                }
             });
 
 
